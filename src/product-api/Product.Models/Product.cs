@@ -36,5 +36,10 @@ namespace Product.Models
         /// Gets or sets the product description.
         /// </summary>
         public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id} Name: {Name}";
+        }
     }
 }

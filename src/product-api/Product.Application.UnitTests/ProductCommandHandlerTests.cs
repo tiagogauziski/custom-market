@@ -40,7 +40,11 @@ namespace Product.Application.UnitTests
             var commandHandler = new ProductCommandHandler(mediatorMock);
             var command = new CreateProductCommand()
             {
-                Name = "Name"
+                Name = "Name",
+                Brand = "Brand",
+                Description = "Description",
+                Price = 100.12,
+                ProductCode = "ProductCode"
             };
 
             // Act
@@ -50,6 +54,8 @@ namespace Product.Application.UnitTests
             Assert.IsType<SuccessResult<Guid>>(result);
             Assert.True(result.IsSuccessful);
             Assert.Empty(result.Errors);
+
+            Assert.NotEqual(Guid.Empty, result.Data);
         }
     }
 }

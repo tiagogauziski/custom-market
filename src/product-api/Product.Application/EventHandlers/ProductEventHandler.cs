@@ -12,13 +12,13 @@ namespace Product.Application.EventHandlers
     public class ProductEventHandler
         : INotificationHandler<ProductCreatedEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<ProductEventHandler> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductEventHandler"/> class.
         /// </summary>
         /// <param name="logger">Logger instance.</param>
-        public ProductEventHandler(ILogger logger)
+        public ProductEventHandler(ILogger<ProductEventHandler> logger)
         {
             _logger = logger;
         }
@@ -26,7 +26,7 @@ namespace Product.Application.EventHandlers
         /// <inheritdoc/>
         public Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogDebug($"Product {notification} has been created.");
+            _logger.LogDebug("Product {new} has been created.", notification.New);
 
             return Task.CompletedTask;
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Product.Application.Common
+namespace Product.Application.Command.Result
 {
     /// <summary>
     /// Result pattern interface.

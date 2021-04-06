@@ -1,8 +1,8 @@
 ﻿using System;
 using MediatR;
-using Product.Application.Common;
+using Product.Application.Command.Result;
 
-namespace Product.Application.Commands.Products
+namespace Product.Application.Command.Products
 {
     /// <summary>
     /// Create product implementation of <see cref="IRequestHandler{TRequest, TResponse}"/>.

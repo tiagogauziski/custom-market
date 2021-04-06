@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Product.Application.Common
+namespace Product.Application.Command.Result
 {
     /// <summary>
     /// Successful result implementation of <see cref="Result{T}"/>.

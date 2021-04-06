@@ -1,10 +1,10 @@
-﻿using Product.Application.Commands.Products;
+﻿using System;
+using System.Net.Mime;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net.Mime;
-using System.Threading.Tasks;
+using Product.Application.Command.Products;
 
 namespace Product.API.Controllers
 {

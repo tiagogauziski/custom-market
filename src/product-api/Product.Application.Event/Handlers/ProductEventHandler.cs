@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Product.Application.Events;
+using Product.Application.Event.Product;
 
-namespace Product.Application.EventHandlers
+namespace Product.Application.Event.Handlers
 {
     /// <summary>
     /// Implements <see cref="INotificationHandler{TNotification}"/> of product related events.

@@ -6,16 +6,18 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
-
+    
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
+    
   <ItemGroup>
-    <ProjectReference Include="..\Product.Application.Command\Product.Application.Command.csproj" />
+    <ProjectReference Include="..\Product.Application.Event\Product.Application.Event.csproj" />
+    <ProjectReference Include="..\Product.Models\Product.Models.csproj" />
   </ItemGroup>
 
 </Project>

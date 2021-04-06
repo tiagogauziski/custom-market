@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Product.Application.Events
+namespace Product.Application.Event.Product
 {
     /// <summary>
     /// Event payload when a new product is created.

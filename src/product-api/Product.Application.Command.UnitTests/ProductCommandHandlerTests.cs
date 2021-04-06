@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Moq;
-using Product.Application.CommandHandlers;
-using Product.Application.Commands.Products;
-using Product.Application.Common;
+using Product.Application.Command.Handlers;
+using Product.Application.Command.Products;
+using Product.Application.Command.Result;
 using Xunit;
 
 namespace Product.Application.UnitTests

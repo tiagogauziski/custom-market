@@ -12,21 +12,21 @@ namespace Product.Infrastructure.Database
         /// Create a product.
         /// </summary>
         /// <param name="product">Product model.</param>
-        /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task CreateAsync(Models.Product product);
 
         /// <summary>
         /// Update a product.
         /// </summary>
         /// <param name="product">Product model.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.<returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task UpdateAsync(Models.Product product);
 
         /// <summary>
         /// Delete a product.
         /// </summary>
         /// <param name="product">Product model.</param>
-        /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task DeleteAsync(Models.Product product);
 
         /// <summary>

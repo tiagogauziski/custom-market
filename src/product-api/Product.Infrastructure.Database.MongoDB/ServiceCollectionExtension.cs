@@ -1,5 +1,6 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Product.Infrastructure.Database;
+using Product.Infrastructure.Database.MongoDB.Repositories;
 
 namespace Product.Application.Command
 {
@@ -9,12 +10,12 @@ namespace Product.Application.Command
     public static class ServiceCollectionExtension
     {
         /// <summary>
-        /// Add application dependencies into <see cref="IServiceCollection"/>.
+        /// Add MongoDB database implementation dependencies into <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">Dependency injection container.</param>
-        public static void AddApplicationCommandLayer(this IServiceCollection services)
+        public static void AddDatabaseInfrastructure(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(ServiceCollectionExtension));
+            services.AddSingleton<IProductRepository, ProductRepository>();
         }
     }
 }

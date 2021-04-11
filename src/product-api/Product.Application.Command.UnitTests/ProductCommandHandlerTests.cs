@@ -6,6 +6,7 @@ using Moq;
 using Product.Application.Command.Handlers;
 using Product.Application.Command.Products;
 using Product.Application.Command.Result;
+using Product.Infrastructure.Database;
 using Xunit;
 
 namespace Product.Application.UnitTests
@@ -17,8 +18,9 @@ namespace Product.Application.UnitTests
         {
             // Arrange
             var mediatorMock = Mock.Of<IMediator>();
+            var repositoryMock = new Mock<IProductRepository>();
 
-            var commandHandler = new ProductCommandHandler(mediatorMock);
+            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand();
 
             // Act
@@ -35,8 +37,9 @@ namespace Product.Application.UnitTests
         {
             // Arrange
             var mediatorMock = Mock.Of<IMediator>();
+            var repositoryMock = new Mock<IProductRepository>();
 
-            var commandHandler = new ProductCommandHandler(mediatorMock);
+            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand()
             {
                 Name = "Name",

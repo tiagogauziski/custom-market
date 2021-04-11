@@ -3,7 +3,7 @@
 ## Docker commands to start MongoDB and MongoExpress
 MongoDB
 ```
-docker run --network mongonetwork --name mongo -d mongo:latest
+docker run --network mongonetwork --name mongo -p 27017:27017 -d mongo:latest 
 ```
 
 Mongo Express

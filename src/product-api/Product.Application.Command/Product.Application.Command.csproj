@@ -17,6 +17,7 @@
     
   <ItemGroup>
     <ProjectReference Include="..\Product.Application.Event\Product.Application.Event.csproj" />
+    <ProjectReference Include="..\Product.Infrastructure.Database.MongoDB\Product.Infrastructure.Database.MongoDB.csproj" />
     <ProjectReference Include="..\Product.Models\Product.Models.csproj" />
   </ItemGroup>
 

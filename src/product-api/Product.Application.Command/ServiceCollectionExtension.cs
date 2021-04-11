@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Product.Infrastructure.Database.MongoDB;
 
 namespace Product.Application.Command
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Product.Application.Command;
 using Product.Application.Event;
+using Product.Infrastructure.Database.MongoDB;
 
 namespace Product.Application
 {
@@ -17,6 +18,9 @@ namespace Product.Application
         {
             services.AddApplicationCommandLayer();
             services.AddApplicationEventLayer();
+
+            // Adds infrastructure database dependencies.
+            services.AddDatabaseInfrastructure();
         }
     }
 }

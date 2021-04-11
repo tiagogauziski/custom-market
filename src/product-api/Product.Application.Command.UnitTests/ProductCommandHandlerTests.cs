@@ -59,5 +59,40 @@ namespace Product.Application.UnitTests
 
             Assert.NotEqual(Guid.Empty, result.Data);
         }
+
+        [Fact]
+        public async Task CreateProductCommand_VerifyCommandModelMapping()
+        {
+            // Arrange
+            var mediatorMock = Mock.Of<IMediator>();
+            var repositoryMock = new Mock<IProductRepository>();
+            Models.Product repositoryModel = null;
+            repositoryMock
+                .Setup(m => m.CreateAsync(It.IsAny<Models.Product>()))
+                .Callback((Models.Product product) =>
+                {
+                    repositoryModel = product;
+                });
+
+            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
+            var command = new CreateProductCommand()
+            {
+                Name = "Name",
+                Brand = "Brand",
+                Description = "Description",
+                Price = 100.12,
+                ProductCode = "ProductCode"
+            };
+
+            // Act
+            var result = await commandHandler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(command.Brand, repositoryModel.Brand);
+            Assert.Equal(command.Description, repositoryModel.Description);
+            Assert.Equal(command.Name, repositoryModel.Name);
+            Assert.Equal(command.Price, repositoryModel.Price);
+            Assert.Equal(command.ProductCode, repositoryModel.ProductCode);
+        }
     }
 }

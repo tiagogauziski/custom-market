@@ -5,5 +5,4 @@ The goal of this project is to implement a complete implementation (API and UI) 
 
 ## Build status:
 ### Product API
-[![.NET](https://github.com/tiagogauziski/custom-market/actions/workflows/dotnet.yml/badge.svg)](https://github.com/tiagogauziski/custom-market/actions/workflows/dotnet.yml)
-
+[![Product API](https://github.com/tiagogauziski/custom-market/actions/workflows/product-api.yml/badge.svg)](https://github.com/tiagogauziski/custom-market/actions/workflows/product-api.yml)

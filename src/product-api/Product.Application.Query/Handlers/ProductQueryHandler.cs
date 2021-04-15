@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Product.Application.Query.Product;
@@ -20,7 +21,7 @@ namespace Product.Application.Query.Handlers
         /// <param name="productRepository">Product repository.</param>
         public ProductQueryHandler(IProductRepository productRepository)
         {
-            _productRepository = productRepository ?? throw new System.ArgumentNullException(nameof(productRepository));
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
 
         /// <inheritdoc />
@@ -28,10 +29,15 @@ namespace Product.Application.Query.Handlers
         {
             if (getProductByIdQuery is null)
             {
-                throw new System.ArgumentNullException(nameof(getProductByIdQuery));
+                throw new ArgumentNullException(nameof(getProductByIdQuery));
             }
 
             var productModel = await _productRepository.GetByIdAsync(getProductByIdQuery.Id, cancellationToken).ConfigureAwait(false);
+
+            if (productModel is null)
+            {
+                return null;
+            }
 
             return new ProductResponseModel()
             {

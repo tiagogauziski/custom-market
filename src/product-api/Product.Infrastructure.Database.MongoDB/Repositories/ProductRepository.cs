@@ -13,7 +13,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly MongoClient _mongoClient;
-        private IMongoCollection<Models.Product> _products;
+        private readonly IMongoCollection<Models.Product> _products;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductRepository"/> class.

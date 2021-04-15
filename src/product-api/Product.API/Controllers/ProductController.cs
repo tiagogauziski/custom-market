@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Product.Application.Command.Products;
+using Product.Application.Query.Product;
 
 namespace Product.API.Controllers
 {
@@ -21,10 +22,19 @@ namespace Product.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ProductResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("{id}")]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok();
+            var result = await mediator.Send(new GetProductByIdQuery(id)).ConfigureAwait(false);
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]

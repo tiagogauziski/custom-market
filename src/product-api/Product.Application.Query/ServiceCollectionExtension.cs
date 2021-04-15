@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Product.Application.Command
+namespace Product.Application.Query
 {
     /// <summary>
     /// Extension methods for <see cref="IServiceCollection"/>.
@@ -12,7 +12,7 @@ namespace Product.Application.Command
         /// Add application dependencies into <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">Dependency injection container.</param>
-        public static void AddApplicationCommandLayer(this IServiceCollection services)
+        public static void AddApplicationQueryLayer(this IServiceCollection services)
         {
             services.AddMediatR(typeof(ServiceCollectionExtension));
         }

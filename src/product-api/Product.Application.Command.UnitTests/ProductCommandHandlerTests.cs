@@ -68,8 +68,8 @@ namespace Product.Application.UnitTests
             var repositoryMock = new Mock<IProductRepository>();
             Models.Product repositoryModel = null;
             repositoryMock
-                .Setup(m => m.CreateAsync(It.IsAny<Models.Product>()))
-                .Callback((Models.Product product) =>
+                .Setup(m => m.CreateAsync(It.IsAny<Models.Product>(), It.IsAny<CancellationToken>()))
+                .Callback((Models.Product product, CancellationToken cancellationToken) =>
                 {
                     repositoryModel = product;
                 });

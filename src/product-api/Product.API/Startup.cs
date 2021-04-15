@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Product.Application;
+using Product.Infrastructure.Database.MongoDB;
 using Product.Infrastructure.Database.MongoDB.Settings;
 
 namespace Product.API
@@ -36,6 +37,9 @@ namespace Product.API
 
             // Adds application layer dependencies.
             services.AddApplicationLayer();
+
+            // Adds infrastructure database dependencies.
+            services.AddDatabaseInfrastructure();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

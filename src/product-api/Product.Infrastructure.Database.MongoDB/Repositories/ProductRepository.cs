@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -31,27 +32,35 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task CreateAsync(Models.Product product)
+        public async Task CreateAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.InsertOneAsync(product);
+            await _products.InsertOneAsync(product, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public async Task DeleteAsync(Models.Product product)
+        public async Task DeleteAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.DeleteOneAsync((product) => product.Id == product.Id);
+            await _products.DeleteOneAsync((product) => product.Id == product.Id, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public async Task<Models.Product> GetByIdAsync(Guid id)
+        public async Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return (await _products.FindAsync((product) => product.Id == id)).FirstOrDefault();
+            var product =
+                await _products.FindAsync(
+                    (product) => product.Id == id,
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
+
+            return product.FirstOrDefault(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task UpdateAsync(Models.Product product)
+        public async Task UpdateAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.ReplaceOneAsync((product) => product.Id == product.Id, product);
+            await _products.ReplaceOneAsync(
+                (product) => product.Id == product.Id,
+                product,
+                cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }
 }

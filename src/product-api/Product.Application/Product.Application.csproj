@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Product.Application.Command\Product.Application.Command.csproj" />
+    <ProjectReference Include="..\Product.Application.Query\Product.Application.Query.csproj" />
   </ItemGroup>
 
 </Project>

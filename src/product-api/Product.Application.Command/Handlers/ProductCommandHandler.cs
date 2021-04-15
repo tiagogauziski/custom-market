@@ -49,7 +49,7 @@ namespace Product.Application.Command.Handlers
                 ProductCode = request.ProductCode,
             };
 
-            await _productRepository.CreateAsync(product);
+            await _productRepository.CreateAsync(product, cancellationToken);
 
             await _mediator.Publish(new ProductCreatedEvent(product), cancellationToken);
 

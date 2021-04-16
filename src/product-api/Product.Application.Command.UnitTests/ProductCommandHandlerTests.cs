@@ -29,7 +29,7 @@ namespace Product.Application.UnitTests
             // Assert
             Assert.IsType<InvalidResult<Guid>>(result);
             Assert.False(result.IsSuccessful);
-            Assert.Single(result.Errors);
+            Assert.NotEmpty(result.Errors);
         }
 
         [Fact]

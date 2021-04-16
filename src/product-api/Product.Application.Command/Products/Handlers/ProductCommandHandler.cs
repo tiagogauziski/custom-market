@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using MediatR;
 using Product.Application.Command.Product.Commands;
+using Product.Application.Command.Products.Validations;
 using Product.Application.Command.Result;
 using Product.Application.Event.Product;
 using Product.Infrastructure.Database;
@@ -34,9 +37,13 @@ namespace Product.Application.Command.Product.Handlers
         /// <inheritdoc/>
         public async Task<IResult<Guid>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.Name))
+            var validation = new CreateProductCommandValidation();
+
+            ValidationResult validationResult = await validation.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
             {
-                return new InvalidResult<Guid>($"{nameof(request.Name)} cannot be null or empty.");
+                return new InvalidResult<Guid>(validationResult.Errors.Select(error => error.ErrorMessage).ToArray());
             }
 
             var product = new Models.Product

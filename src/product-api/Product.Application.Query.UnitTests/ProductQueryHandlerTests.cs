@@ -3,7 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.AutoMock;
-using Product.Application.Query.Handlers;
+using Product.Application.Query.Product.Handlers;
+using Product.Application.Query.Product.Queries;
 using Product.Infrastructure.Database;
 using Xunit;
 
@@ -62,7 +63,7 @@ namespace Product.Application.Query.UnitTests
             // Act
             var productResponse =
                 await _productQueryHandler.Handle(
-                    new Product.GetProductByIdQuery(productId),
+                    new GetProductByIdQuery(productId),
                     CancellationToken.None).ConfigureAwait(false);
 
             // Assert
@@ -90,7 +91,7 @@ namespace Product.Application.Query.UnitTests
             // Act
             var productResponse =
                 await _productQueryHandler.Handle(
-                    new Product.GetProductByIdQuery(Guid.NewGuid()),
+                    new GetProductByIdQuery(Guid.NewGuid()),
                     CancellationToken.None).ConfigureAwait(false);
 
             // Assert

@@ -1,36 +1,39 @@
 ﻿using System;
-using MediatR;
-using Product.Application.Command.Result;
 
-namespace Product.Application.Command.Products
+namespace Product.Application.Query.Product.Responses
 {
     /// <summary>
-    /// Create product implementation of <see cref="IRequestHandler{TRequest, TResponse}"/>.
+    /// Determines product model view.
     /// </summary>
-    public class CreateProductCommand : IRequest<IResult<Guid>>
+    public class ProductResponseModel
     {
         /// <summary>
-        /// Gets or sets product name.
+        /// Gets or sets the Id.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets product brand.
+        /// Gets or sets product brand name.
         /// </summary>
         public string Brand { get; set; }
 
         /// <summary>
-        /// Gets or sets product code.
+        /// Gets or sets the product code.
         /// </summary>
         public string ProductCode { get; set; }
 
         /// <summary>
-        /// Gets or sets price.
+        /// Gets or sets the product price.
         /// </summary>
         public double Price { get; set; }
 
         /// <summary>
-        /// Gets or sets description.
+        /// Gets or sets the product description.
         /// </summary>
         public string Description { get; set; }
     }

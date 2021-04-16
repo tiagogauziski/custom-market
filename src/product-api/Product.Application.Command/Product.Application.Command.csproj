@@ -9,6 +9,7 @@
     
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Product.Application.Event\Product.Application.Event.csproj" />
     <ProjectReference Include="..\Product.Infrastructure.Database.Abstractions\Product.Infrastructure.Database.Abstractions.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+    <Folder Include="Products\Validations\" />
   </ItemGroup>
 
 </Project>

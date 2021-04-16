@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Product.Application.Command.Products;
-using Product.Application.Query.Product;
+using Product.Application.Command.Product.Commands;
+using Product.Application.Query.Product.Queries;
+using Product.Application.Query.Product.Responses;
 
 namespace Product.API.Controllers
 {

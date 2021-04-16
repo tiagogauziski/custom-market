@@ -2,10 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Product.Application.Query.Product;
+using Product.Application.Query.Product.Queries;
+using Product.Application.Query.Product.Responses;
 using Product.Infrastructure.Database;
 
-namespace Product.Application.Query.Handlers
+namespace Product.Application.Query.Product.Handlers
 {
     /// <summary>
     /// Implementation of <see cref="IRequestHandler{TRequest, TResponse}"/> for product commands.

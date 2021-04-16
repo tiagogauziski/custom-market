@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
+using Product.Application.Query.Product.Responses;
 
-namespace Product.Application.Query.Product
+namespace Product.Application.Query.Product.Queries
 {
     /// <summary>
     /// Defines the get product by id query parameters.

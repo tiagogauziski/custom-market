@@ -54,6 +54,17 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
             return product.FirstOrDefault(cancellationToken);
         }
 
+        /// <inheritdoc />
+        public async Task<Models.Product> GetByNameBrandAsync(string name, string brand, CancellationToken cancellationToken)
+        {
+            var product =
+               await _products.FindAsync(
+                   (product) => product.Name == name && product.Brand == brand,
+                   cancellationToken: cancellationToken).ConfigureAwait(false);
+
+            return product.FirstOrDefault(cancellationToken);
+        }
+
         /// <inheritdoc/>
         public async Task UpdateAsync(Models.Product product, CancellationToken cancellationToken)
         {

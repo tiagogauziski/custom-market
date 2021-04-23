@@ -43,7 +43,12 @@ namespace Product.Application.Command.Product.Handlers
 
             if (!validationResult.IsValid)
             {
-                return new InvalidResult<Guid>(validationResult.Errors.Select(error => error.ErrorMessage).ToArray());
+                return new ModelValidationResult<Guid>(validationResult.Errors.Select(error => error.ErrorMessage));
+            }
+
+            if (await _productRepository.GetByNameBrandAsync(request.Name, request.Brand, cancellationToken).ConfigureAwait(false) is not null)
+            {
+                return new ConflictResult<Guid>("Duplicate product. Please provide an unique product entry.");
             }
 
             var product = new Models.Product

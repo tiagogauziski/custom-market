@@ -40,5 +40,14 @@ namespace Product.Infrastructure.Database
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Product model.</returns>
         Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Query product based on product name and brand.
+        /// </summary>
+        /// <param name="name">Product name.</param>
+        /// <param name="brand">Product brand name.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Product model.</returns>
+        Task<Models.Product> GetByNameBrandAsync(string name, string brand, CancellationToken cancellationToken);
     }
 }

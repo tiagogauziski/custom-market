@@ -8,7 +8,7 @@ namespace Product.Application.Command.Result
     /// <typeparam name="T">Data return type.</typeparam>
     public class InvalidResult<T> : Result<T>
     {
-        private readonly string[] _errors;
+        private readonly IEnumerable<string> _errors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidResult{T}"/> class.
@@ -23,7 +23,7 @@ namespace Product.Application.Command.Result
         /// Initializes a new instance of the <see cref="InvalidResult{T}"/> class.
         /// </summary>
         /// <param name="errors">Result errors.</param>
-        public InvalidResult(string[] errors)
+        public InvalidResult(IEnumerable<string> errors)
         {
             _errors = errors;
         }

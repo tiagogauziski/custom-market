@@ -27,7 +27,7 @@ namespace Product.Application.UnitTests
             var result = await commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.IsType<InvalidResult<Guid>>(result);
+            Assert.IsType<ModelValidationResult<Guid>>(result);
             Assert.False(result.IsSuccessful);
             Assert.NotEmpty(result.Errors);
         }

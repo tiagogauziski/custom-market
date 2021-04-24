@@ -33,6 +33,36 @@ namespace Product.Application.UnitTests
         }
 
         [Fact]
+        public async Task CreateProductCommand_WhenDuplicatedNameBrand_Failure()
+        {
+            // Arrange
+            var mediatorMock = Mock.Of<IMediator>();
+            var repositoryMock = new Mock<IProductRepository>();
+
+            repositoryMock
+                .Setup(m => m.GetByNameBrandAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Models.Product());
+
+            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
+            var command = new CreateProductCommand()
+            {
+                Name = "Name",
+                Brand = "Brand",
+                Description = "Description",
+                Price = 100.12,
+                ProductCode = "ProductCode"
+            };
+
+            // Act
+            var result = await commandHandler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.IsType<ConflictResult<Guid>>(result);
+            Assert.False(result.IsSuccessful);
+            Assert.NotEmpty(result.Errors);
+        }
+
+        [Fact]
         public async Task CreateProductCommand_AllProperties_Success()
         {
             // Arrange

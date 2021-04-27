@@ -66,8 +66,11 @@ namespace Product.API.Controllers
         [ProducesResponseType(typeof(Uri), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Update(UpdateProductCommand command)
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status404NotFound)]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute]Guid id, UpdateProductCommand command)
         {
+            command.Id = id;
             var result = await _mediator.Send(command);
 
             if (!result.IsSuccessful)

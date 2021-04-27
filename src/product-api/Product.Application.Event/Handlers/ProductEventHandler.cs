@@ -35,7 +35,7 @@ namespace Product.Application.Event.Handlers
         /// <inheritdoc />
         public Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("Product {old} has been modified to {new}.", notification.Old, notification.Old);
+            _logger.LogDebug("Product {new} has been modified.", notification.New, notification.Old);
 
             return Task.CompletedTask;
         }

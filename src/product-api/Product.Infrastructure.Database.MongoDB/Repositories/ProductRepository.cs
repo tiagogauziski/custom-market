@@ -69,7 +69,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         public async Task UpdateAsync(Models.Product product, CancellationToken cancellationToken)
         {
             await _products.ReplaceOneAsync(
-                (product) => product.Id == product.Id,
+                (dbProduct) => dbProduct.Id == product.Id,
                 product,
                 cancellationToken: cancellationToken).ConfigureAwait(false);
         }

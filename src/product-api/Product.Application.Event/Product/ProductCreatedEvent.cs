@@ -21,7 +21,7 @@ namespace Product.Application.Event.Product
         /// <param name="product">Product model.</param>
         public ProductCreatedEvent(Models.Product product)
         {
-            this.New = product;
+            New = product;
         }
 
         /// <summary>

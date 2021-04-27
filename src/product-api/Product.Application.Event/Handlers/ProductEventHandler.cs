@@ -9,8 +9,9 @@ namespace Product.Application.Event.Handlers
     /// <summary>
     /// Implements <see cref="INotificationHandler{TNotification}"/> of product related events.
     /// </summary>
-    public class ProductEventHandler
-        : INotificationHandler<ProductCreatedEvent>
+    public class ProductEventHandler :
+        INotificationHandler<ProductCreatedEvent>,
+        INotificationHandler<ProductUpdatedEvent>
     {
         private readonly ILogger<ProductEventHandler> _logger;
 
@@ -27,6 +28,14 @@ namespace Product.Application.Event.Handlers
         public Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Product {new} has been created.", notification.New);
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc />
+        public Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
+        {
+            _logger.LogDebug("Product {old} has been modified to {new}.", notification.Old, notification.Old);
 
             return Task.CompletedTask;
         }

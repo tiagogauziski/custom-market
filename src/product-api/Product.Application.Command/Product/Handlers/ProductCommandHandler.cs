@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentValidation.Results;
 using MediatR;
 using Product.Application.Command.Product.Commands;
-using Product.Application.Command.Products.Validations;
+using Product.Application.Command.Product.Validations;
 using Product.Application.Command.Result;
 using Product.Application.Event.Product;
 using Product.Infrastructure.Database;

@@ -3,11 +3,11 @@
 namespace Product.Application.Command.Result
 {
     /// <summary>
-    /// Successful result implementation of <see cref="Result{T}"/>.
+    /// Successful result implementation of <see cref="IResult{T}"/>.
     /// </summary>
     /// <typeparam name="T">Data return type.</typeparam>
     public class SuccessResult<T>
-        : Result<T>
+        : IResult<T>
     {
         private readonly T _data;
 
@@ -21,12 +21,12 @@ namespace Product.Application.Command.Result
         }
 
         /// <inheritdoc/>
-        public override bool IsSuccessful => true;
+        public bool IsSuccessful => true;
 
         /// <inheritdoc/>
-        public override List<string> Errors => new List<string>();
+        public IEnumerable<string> Errors => new List<string>();
 
         /// <inheritdoc/>
-        public override T Data => _data;
+        public T Data => _data;
     }
 }

@@ -7,7 +7,8 @@ namespace Product.Application.Command.Product.Commands
     /// <summary>
     /// Create product implementation of <see cref="IRequestHandler{TRequest, TResponse}"/>.
     /// </summary>
-    public class CreateProductCommand : IRequest<IResult<Guid>>
+    public class CreateProductCommand
+        : IRequest<IResult<Guid>>
     {
         /// <summary>
         /// Gets or sets product name.

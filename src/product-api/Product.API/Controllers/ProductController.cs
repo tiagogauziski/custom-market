@@ -16,11 +16,11 @@ namespace Product.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IMediator mediator;
+        private readonly IMediator _mediator;
 
         public ProductController(IMediator mediator)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace Product.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await mediator.Send(new GetProductByIdQuery(id)).ConfigureAwait(false);
+            var result = await _mediator.Send(new GetProductByIdQuery(id)).ConfigureAwait(false);
 
             if (result is null)
             {
@@ -45,17 +45,44 @@ namespace Product.API.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateProductCommand command)
         {
-            var result = await mediator.Send(command);
+            var result = await _mediator.Send(command);
 
             if (!result.IsSuccessful)
             {
                 if (result is ConflictResult<Guid>)
                 {
-                    return Conflict(result.Errors);
+                    return base.Conflict(result.Errors);
                 }
                 else
                 {
-                    return BadRequest(result.Errors);
+                    return base.BadRequest(result.Errors);
+                }
+            }
+
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, result.Data);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(Uri), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Update(UpdateProductCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccessful)
+            {
+                if (result is ConflictResult<Guid>)
+                {
+                    return base.Conflict(result.Errors);
+                }
+                else if (result is NotFoundResult<Guid>)
+                {
+                    return base.NotFound();
+                }
+                else
+                {
+                    return base.BadRequest(result.Errors);
                 }
             }
 

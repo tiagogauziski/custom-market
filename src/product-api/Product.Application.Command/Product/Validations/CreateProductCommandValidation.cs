@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Product.Application.Command.Product.Commands;
 
-namespace Product.Application.Command.Products.Validations
+namespace Product.Application.Command.Product.Validations
 {
     /// <summary>
     /// Defines the validation rules for <see cref="CreateProductCommand"/>.

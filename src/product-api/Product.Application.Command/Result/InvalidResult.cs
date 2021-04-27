@@ -3,10 +3,11 @@
 namespace Product.Application.Command.Result
 {
     /// <summary>
-    /// Invalid result implementation of <see cref="Result{T}"/>.
+    /// Invalid result implementation of <see cref="IResult{T}"/>.
     /// </summary>
     /// <typeparam name="T">Data return type.</typeparam>
-    public class InvalidResult<T> : Result<T>
+    public class InvalidResult<T>
+        : IResult<T>
     {
         private readonly IEnumerable<string> _errors;
 
@@ -29,12 +30,12 @@ namespace Product.Application.Command.Result
         }
 
         /// <inheritdoc/>
-        public override bool IsSuccessful => false;
+        public bool IsSuccessful => false;
 
         /// <inheritdoc/>
-        public override List<string> Errors => new List<string>(_errors);
+        public IEnumerable<string> Errors => new List<string>(_errors);
 
         /// <inheritdoc/>
-        public override T Data => default;
+        public T Data => default;
     }
 }

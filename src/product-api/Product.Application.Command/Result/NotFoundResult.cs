@@ -3,26 +3,26 @@
 namespace Product.Application.Command.Result
 {
     /// <summary>
-    /// Confict result implementation of <see cref="InvalidResult{T}"/>.
+    /// Entry not found result implementation of <see cref="InvalidResult{T}"/>.
     /// </summary>
-    /// <typeparam name="T">Data return type.</typeparam>
-    public class ConflictResult<T>
+    /// <typeparam name="T">Result data type.</typeparam>
+    public class NotFoundResult<T>
         : InvalidResult<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConflictResult{T}"/> class.
+        /// Initializes a new instance of the <see cref="NotFoundResult{T}"/> class.
         /// </summary>
         /// <param name="error">Model validation error.</param>
-        public ConflictResult(string error)
+        public NotFoundResult(string error)
             : base(error)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConflictResult{T}"/> class.
+        /// Initializes a new instance of the <see cref="NotFoundResult{T}"/> class.
         /// </summary>
         /// <param name="errors">Model validation errors.</param>
-        public ConflictResult(IEnumerable<string> errors)
+        public NotFoundResult(IEnumerable<string> errors)
             : base(errors)
         {
         }

@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Moq;
+using Moq.AutoMock;
 using Product.Application.Command.Product.Commands;
 using Product.Application.Command.Product.Handlers;
 using Product.Application.Command.Result;
 using Product.Infrastructure.Database;
 using Xunit;
 
-namespace Product.Application.UnitTests
+namespace Product.Application.UnitTests.Product.Handlers
 {
-    public class ProductCommandHandlerTests
+    public class CreateProductCommandHandlerTests
     {
+        private readonly AutoMocker _mocker;
+        private readonly CreateProductCommandHandler _commandHandler;
+
+        public CreateProductCommandHandlerTests()
+        {
+            _mocker = new AutoMocker();
+
+            _commandHandler = _mocker.CreateInstance<CreateProductCommandHandler>();
+        }
+
         [Fact]
         public async Task CreateProductCommand_WhenInvalidName_Failure()
         {
             // Arrange
-            var mediatorMock = Mock.Of<IMediator>();
-            var repositoryMock = new Mock<IProductRepository>();
-
-            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand();
 
             // Act
-            var result = await commandHandler.Handle(command, CancellationToken.None);
+            var result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ModelValidationResult<Guid>>(result);
@@ -36,14 +42,10 @@ namespace Product.Application.UnitTests
         public async Task CreateProductCommand_WhenDuplicatedNameBrand_Failure()
         {
             // Arrange
-            var mediatorMock = Mock.Of<IMediator>();
-            var repositoryMock = new Mock<IProductRepository>();
-
-            repositoryMock
+            _mocker.GetMock<IProductRepository>()
                 .Setup(m => m.GetByNameBrandAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Models.Product());
 
-            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand()
             {
                 Name = "Name",
@@ -54,7 +56,7 @@ namespace Product.Application.UnitTests
             };
 
             // Act
-            var result = await commandHandler.Handle(command, CancellationToken.None);
+            var result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ConflictResult<Guid>>(result);
@@ -66,10 +68,6 @@ namespace Product.Application.UnitTests
         public async Task CreateProductCommand_AllProperties_Success()
         {
             // Arrange
-            var mediatorMock = Mock.Of<IMediator>();
-            var repositoryMock = new Mock<IProductRepository>();
-
-            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand()
             {
                 Name = "Name",
@@ -80,7 +78,7 @@ namespace Product.Application.UnitTests
             };
 
             // Act
-            var result = await commandHandler.Handle(command, CancellationToken.None);
+            var result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<SuccessResult<Guid>>(result);
@@ -94,17 +92,14 @@ namespace Product.Application.UnitTests
         public async Task CreateProductCommand_VerifyCommandModelMapping()
         {
             // Arrange
-            var mediatorMock = Mock.Of<IMediator>();
-            var repositoryMock = new Mock<IProductRepository>();
             Models.Product repositoryModel = null;
-            repositoryMock
+            _mocker.GetMock<IProductRepository>()
                 .Setup(m => m.CreateAsync(It.IsAny<Models.Product>(), It.IsAny<CancellationToken>()))
                 .Callback((Models.Product product, CancellationToken cancellationToken) =>
                 {
                     repositoryModel = product;
                 });
 
-            var commandHandler = new ProductCommandHandler(mediatorMock, repositoryMock.Object);
             var command = new CreateProductCommand()
             {
                 Name = "Name",
@@ -115,7 +110,7 @@ namespace Product.Application.UnitTests
             };
 
             // Act
-            var result = await commandHandler.Handle(command, CancellationToken.None);
+            var result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.Equal(command.Brand, repositoryModel.Brand);

@@ -5,7 +5,7 @@ using Product.Application.Command.Result;
 namespace Product.Application.Command.Product.Commands
 {
     /// <summary>
-    /// Create product implementation of <see cref="IRequestHandler{TRequest, TResponse}"/>.
+    /// Defines a command to create a product into the database.
     /// </summary>
     public class CreateProductCommand
         : IRequest<IResult<Guid>>

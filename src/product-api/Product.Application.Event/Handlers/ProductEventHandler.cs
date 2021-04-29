@@ -11,7 +11,8 @@ namespace Product.Application.Event.Handlers
     /// </summary>
     public class ProductEventHandler :
         INotificationHandler<ProductCreatedEvent>,
-        INotificationHandler<ProductUpdatedEvent>
+        INotificationHandler<ProductUpdatedEvent>,
+        INotificationHandler<ProductDeletedEvent>
     {
         private readonly ILogger<ProductEventHandler> _logger;
 
@@ -36,6 +37,14 @@ namespace Product.Application.Event.Handlers
         public Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Product {new} has been modified.", notification.New, notification.Old);
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc />
+        public Task Handle(ProductDeletedEvent notification, CancellationToken cancellationToken)
+        {
+            _logger.LogDebug("Product {new} has deleted.", notification.Old);
 
             return Task.CompletedTask;
         }

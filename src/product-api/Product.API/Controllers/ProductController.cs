@@ -68,7 +68,7 @@ namespace Product.API.Controllers
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status404NotFound)]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute]Guid id, UpdateProductCommand command)
+        public async Task<IActionResult> Update([FromRoute] Guid id, UpdateProductCommand command)
         {
             command.Id = id;
             var result = await _mediator.Send(command);
@@ -90,6 +90,35 @@ namespace Product.API.Controllers
             }
 
             return CreatedAtAction(nameof(GetById), new { id = result.Data }, result.Data);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            DeleteProductCommand command = new DeleteProductCommand()
+            {
+                Id = id
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccessful)
+            {
+                if (result is NotFoundResult<Guid>)
+                {
+                    return base.NotFound();
+                }
+                else
+                {
+                    return base.BadRequest(result.Errors);
+                }
+            }
+
+            return NoContent();
         }
     }
 }

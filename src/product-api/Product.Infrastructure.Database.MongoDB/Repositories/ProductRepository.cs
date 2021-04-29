@@ -40,7 +40,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc/>
         public async Task DeleteAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.DeleteOneAsync((product) => product.Id == product.Id, cancellationToken).ConfigureAwait(false);
+            await _products.DeleteOneAsync((dbProduct) => dbProduct.Id == product.Id, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>

@@ -1,12 +1,14 @@
 ﻿using MediatR;
+using Product.Application.Event.Common;
 
-namespace Product.Application.Event.Product
+namespace Product.Application.Event.Product.Events
 {
     /// <summary>
     /// Event payload when a new product is created.
     /// </summary>
-    public class ProductUpdatedEvent
-        : INotification
+    public class ProductUpdatedEvent :
+        EventBase,
+        INotification
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductUpdatedEvent"/> class.
@@ -35,5 +37,11 @@ namespace Product.Application.Event.Product
         /// Gets or sets the updated product.
         /// </summary>
         public Models.Product New { get; set; }
+
+        /// <inheritdoc />
+        public override string GetChanges()
+        {
+            return string.Empty;
+        }
     }
 }

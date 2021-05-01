@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Product.Application.Event\Product.Application.Event.csproj" />
+    <ProjectReference Include="..\Product.Infrastructure.EventStore.Abstractions\Product.Infrastructure.EventStore.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

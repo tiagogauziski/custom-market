@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Product.Application.Command.Product.Commands;
 using Product.Application.Command.Result;
-using Product.Application.Event.Product;
+using Product.Application.Event.Product.Events;
 using Product.Infrastructure.Database;
 
 namespace Product.Application.Command.Product.Handlers

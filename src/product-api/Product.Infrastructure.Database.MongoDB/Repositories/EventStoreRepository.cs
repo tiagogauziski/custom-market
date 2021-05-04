@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Product.Infrastructure.Database.MongoDB.Settings;
 using Product.Infrastructure.EventStore.Abstractions;

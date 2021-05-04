@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Product.Infrastructure.Database.MongoDB.Settings;
 
@@ -28,7 +27,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
 
             var database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
 
-            _products = database.GetCollection<Models.Product>("products");
+            _products = database.GetCollection<Models.Product>("product");
         }
 
         /// <inheritdoc/>

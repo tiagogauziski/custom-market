@@ -1,5 +1,8 @@
-﻿using MediatR;
-using Product.Application.Event.Common;
+﻿using System;
+using JsonDiffPatchDotNet;
+using MediatR;
+using Newtonsoft.Json;
+using Product.Models;
 
 namespace Product.Application.Event.Product.Events
 {
@@ -39,9 +42,12 @@ namespace Product.Application.Event.Product.Events
         public Models.Product New { get; set; }
 
         /// <inheritdoc />
+        public override Guid ObjectId { get => New.Id; }
+
+        /// <inheritdoc />
         public override string GetChanges()
         {
-            return string.Empty;
+            return new JsonDiffPatch().Diff(JsonConvert.SerializeObject(Old), JsonConvert.SerializeObject(New));
         }
     }
 }

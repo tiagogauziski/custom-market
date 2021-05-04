@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Product.Application.Event.Common;
+using Product.Models;
 
 namespace Product.Infrastructure.EventStore.Abstractions
 {
@@ -15,6 +15,6 @@ namespace Product.Infrastructure.EventStore.Abstractions
         /// <param name="systemEvent">Event being stored.</param>
         /// <param name="cancellation">Cancellation token.</param>
         /// <returns>A task representing an asynchronous operation.</returns>
-        Task SaveEvent(EventBase systemEvent, CancellationToken cancellation);
+        Task SaveEventAsync(EventBase systemEvent, CancellationToken cancellation);
     }
 }

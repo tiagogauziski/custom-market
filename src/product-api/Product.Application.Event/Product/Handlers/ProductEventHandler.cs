@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Product.Application.Event.Product.Events;
+using Product.Infrastructure.EventStore.Abstractions;
 
 namespace Product.Application.Event.Product.Handlers
 {
@@ -15,38 +16,43 @@ namespace Product.Application.Event.Product.Handlers
         INotificationHandler<ProductDeletedEvent>
     {
         private readonly ILogger<ProductEventHandler> _logger;
+        private readonly IEventStoreRepository _eventStoreRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductEventHandler"/> class.
         /// </summary>
         /// <param name="logger">Logger instance.</param>
-        public ProductEventHandler(ILogger<ProductEventHandler> logger)
+        /// <param name="eventStoreRepository">Event store repository.</param>
+        public ProductEventHandler(
+            ILogger<ProductEventHandler> logger,
+            IEventStoreRepository eventStoreRepository)
         {
-            _logger = logger;
+            _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
+            _eventStoreRepository = eventStoreRepository ?? throw new System.ArgumentNullException(nameof(eventStoreRepository));
         }
 
         /// <inheritdoc/>
-        public Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(ProductCreatedEvent notification, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Product {new} has been created.", notification.New);
 
-            return Task.CompletedTask;
+            await _eventStoreRepository.SaveEventAsync(notification, cancellationToken);
         }
 
         /// <inheritdoc />
-        public Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(ProductUpdatedEvent notification, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Product {new} has been modified.", notification.New, notification.Old);
 
-            return Task.CompletedTask;
+            await _eventStoreRepository.SaveEventAsync(notification, cancellationToken);
         }
 
         /// <inheritdoc />
-        public Task Handle(ProductDeletedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(ProductDeletedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("Product {new} has deleted.", notification.Old);
+            _logger.LogDebug("Product {old} has deleted.", notification.Old);
 
-            return Task.CompletedTask;
+            await _eventStoreRepository.SaveEventAsync(notification, cancellationToken);
         }
     }
 }

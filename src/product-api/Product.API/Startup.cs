@@ -39,7 +39,7 @@ namespace Product.API
             services.AddApplicationLayer();
 
             // Adds infrastructure database dependencies.
-            services.AddDatabaseInfrastructure();
+            services.AddInfrastructureDatabase();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

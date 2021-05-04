@@ -1,5 +1,7 @@
-﻿using MediatR;
-using Product.Application.Event.Common;
+﻿using System;
+using MediatR;
+using Newtonsoft.Json;
+using Product.Models;
 
 namespace Product.Application.Event.Product.Events
 {
@@ -32,9 +34,12 @@ namespace Product.Application.Event.Product.Events
         public Models.Product Old { get; set; }
 
         /// <inheritdoc />
+        public override Guid ObjectId { get => Old.Id; }
+
+        /// <inheritdoc />
         public override string GetChanges()
         {
-            return string.Empty;
+            return JsonConvert.SerializeObject(Old);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Product.Models
         /// <summary>
         /// Gets the event name.
         /// </summary>
-        public string EventName { get; }
+        public string EventName => GetType().Name;
 
         /// <summary>
         /// Gets or sets the time that the event occured.

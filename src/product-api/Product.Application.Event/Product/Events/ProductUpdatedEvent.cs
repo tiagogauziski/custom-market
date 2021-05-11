@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using JsonDiffPatchDotNet;
+using JsonDiffPatchDotNet.Formatters.JsonPatch;
 using MediatR;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Product.Models;
 
 namespace Product.Application.Event.Product.Events
@@ -27,8 +30,8 @@ namespace Product.Application.Event.Product.Events
         /// <param name="newProduct">Model after changes.</param>
         public ProductUpdatedEvent(Models.Product oldProduct, Models.Product newProduct)
         {
-            New = oldProduct;
-            Old = newProduct;
+            New = newProduct;
+            Old = oldProduct;
         }
 
         /// <summary>
@@ -47,7 +50,11 @@ namespace Product.Application.Event.Product.Events
         /// <inheritdoc />
         public override string GetChanges()
         {
-            return new JsonDiffPatch().Diff(JsonConvert.SerializeObject(Old), JsonConvert.SerializeObject(New));
+            var left = JObject.FromObject(Old);
+            var right = JObject.FromObject(New);
+            JToken patch = new JsonDiffPatch().Diff(left, right);
+
+            return JsonConvert.SerializeObject(patch);
         }
     }
 }

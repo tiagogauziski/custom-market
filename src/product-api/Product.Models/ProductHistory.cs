@@ -13,6 +13,11 @@ namespace Product.Models
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the event name.
+        /// </summary>
+        public string EventName { get; set; }
+
+        /// <summary>
         /// Gets or sets the product id.
         /// </summary>
         public Guid ProductId { get; set; }

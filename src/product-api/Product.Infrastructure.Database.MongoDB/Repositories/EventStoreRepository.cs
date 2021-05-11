@@ -36,12 +36,13 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc />
         public async Task SaveEventAsync(EventBase systemEvent, CancellationToken cancellationToken)
         {
-            ProductHistory productHistory = new ProductHistory()
+            ProductHistory productHistory = new ()
             {
                 Id = Guid.NewGuid(),
                 ProductId = systemEvent.ObjectId,
                 Changes = systemEvent.GetChanges(),
                 DateTimeUtc = DateTimeOffset.UtcNow,
+                EventName = systemEvent.EventName,
             };
 
             await _productHistoryCollection.InsertOneAsync(productHistory, null, cancellationToken).ConfigureAwait(false);

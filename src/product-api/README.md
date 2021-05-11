@@ -8,10 +8,10 @@ docker network create mongonetwork
 
 1. MongoDB
 ```
-docker run --network mongonetwork --name mongo -p 27017:27017 -d mongo:latest 
+docker run --network mongonetwork --restart unless-stopped --name mongo -p 27017:27017 -d mongo:latest 
 ```
 
 1. Mongo Express
 ```
-docker run --network mongonetwork --name mongo-express -e ME_CONFIG_MONGODB_SERVER=mongo -p 8081:8081 mongo-express
+docker run --network mongonetwork --restart unless-stopped --name mongo-express -e ME_CONFIG_MONGODB_SERVER=mongo -p 8081:8081 mongo-express
 ```

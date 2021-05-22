@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Product.API\Product.API.csproj" />
-    <ProjectReference Include="..\Product.Infrastructure.Database.EntityFramework.InMemory\Product.Infrastructure.Database.EntityFramework.csproj" />
+    <ProjectReference Include="..\Product.Infrastructure.Database.EntityFramework\Product.Infrastructure.Database.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

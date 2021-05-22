@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Product.Application.Event.Product.Events;
-using Product.Infrastructure.EventStore.Abstractions;
+using Product.Infrastructure.Database;
 
 namespace Product.Application.Event.Product.Handlers
 {
@@ -16,7 +16,7 @@ namespace Product.Application.Event.Product.Handlers
         INotificationHandler<ProductDeletedEvent>
     {
         private readonly ILogger<ProductEventHandler> _logger;
-        private readonly IEventStoreRepository _eventStoreRepository;
+        private readonly IProductHistoryRepository _eventStoreRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductEventHandler"/> class.
@@ -25,7 +25,7 @@ namespace Product.Application.Event.Product.Handlers
         /// <param name="eventStoreRepository">Event store repository.</param>
         public ProductEventHandler(
             ILogger<ProductEventHandler> logger,
-            IEventStoreRepository eventStoreRepository)
+            IProductHistoryRepository eventStoreRepository)
         {
             _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
             _eventStoreRepository = eventStoreRepository ?? throw new System.ArgumentNullException(nameof(eventStoreRepository));

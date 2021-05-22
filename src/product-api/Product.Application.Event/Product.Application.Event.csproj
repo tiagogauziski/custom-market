@@ -21,7 +21,7 @@
   </ItemGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\Product.Infrastructure.EventStore.Abstractions\Product.Infrastructure.EventStore.Abstractions.csproj" />
+    <ProjectReference Include="..\Product.Infrastructure.Database.Abstractions\Product.Infrastructure.Database.Abstractions.csproj" />
     <ProjectReference Include="..\Product.Models\Product.Models.csproj" />
   </ItemGroup>
 

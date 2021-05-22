@@ -9,10 +9,10 @@ using Product.Application.Command.Result;
 using Product.Application.Query.Product.Queries;
 using Product.Application.Query.Product.Responses;
 
-namespace Product.API.Controllers
+namespace Product.API.Controllers.V1
 {
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace Product.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Uri), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateProductCommand command)

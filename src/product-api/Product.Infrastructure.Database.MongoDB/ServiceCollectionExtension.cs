@@ -2,7 +2,6 @@
 using MongoDB.Driver;
 using Product.Infrastructure.Database.MongoDB.Repositories;
 using Product.Infrastructure.Database.MongoDB.Settings;
-using Product.Infrastructure.EventStore.Abstractions;
 
 namespace Product.Infrastructure.Database.MongoDB
 {
@@ -15,7 +14,7 @@ namespace Product.Infrastructure.Database.MongoDB
         /// Add MongoDB database implementation dependencies into <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services">Dependency injection container.</param>
-        public static void AddInfrastructureDatabase(this IServiceCollection services)
+        public static void AddInfrastructureDatabaseMongoDb(this IServiceCollection services)
         {
             DatabaseMapping.RegisterMapping();
 
@@ -27,7 +26,7 @@ namespace Product.Infrastructure.Database.MongoDB
             });
 
             services.AddSingleton<IProductRepository, ProductRepository>();
-            services.AddSingleton<IEventStoreRepository, EventStoreRepository>();
+            services.AddSingleton<IProductHistoryRepository, ProductHistoryRepository>();
         }
     }
 }

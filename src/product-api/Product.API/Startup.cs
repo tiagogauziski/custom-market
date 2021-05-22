@@ -39,7 +39,7 @@ namespace Product.API
             services.AddApplicationLayer();
 
             // Adds infrastructure database dependencies.
-            services.AddInfrastructureDatabase();
+            services.AddInfrastructureDatabaseMongoDb();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

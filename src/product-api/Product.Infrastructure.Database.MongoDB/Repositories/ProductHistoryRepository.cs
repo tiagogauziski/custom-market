@@ -3,26 +3,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Product.Infrastructure.Database.MongoDB.Settings;
-using Product.Infrastructure.EventStore.Abstractions;
 using Product.Models;
 
 namespace Product.Infrastructure.Database.MongoDB.Repositories
 {
     /// <summary>
-    /// MongoDB implementation of <see cref="IEventStoreRepository"/>.
+    /// MongoDB implementation of <see cref="IProductHistoryRepository"/>.
     /// </summary>
-    public class EventStoreRepository :
-        IEventStoreRepository
+    public class ProductHistoryRepository :
+        IProductHistoryRepository
     {
         private readonly MongoClient _mongoClient;
         private readonly IMongoCollection<ProductHistory> _productHistoryCollection;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EventStoreRepository"/> class.
+        /// Initializes a new instance of the <see cref="ProductHistoryRepository"/> class.
         /// </summary>
         /// <param name="mongoClient">MongoDB database client.</param>
         /// <param name="productDatabaseSettings">Product database settings.</param>
-        public EventStoreRepository(
+        public ProductHistoryRepository(
             MongoClient mongoClient,
             IProductDatabaseSettings productDatabaseSettings)
         {

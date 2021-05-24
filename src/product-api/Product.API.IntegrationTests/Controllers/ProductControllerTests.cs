@@ -27,11 +27,7 @@ namespace Product.API.IntegrationTests.Controllers
         public async Task Create_WhenValidProduct_ShouldReturnCreated()
         {
             // Arrange
-            CreateProductCommand command = new CreateProductCommand()
-            {
-                Name = "Name",
-                Brand = "Brand"
-            };
+            CreateProductCommand command = SampleCreateProductCommand();
 
             // Act
             var response = await _client.PostAsync("/api/v1/product",
@@ -42,6 +38,36 @@ namespace Product.API.IntegrationTests.Controllers
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.NotEqual(Guid.Empty, responseViewModel);
+        }
+
+        [Fact]
+        public async Task Create_WhenInvalidProductName_ShouldReturnBadRequest()
+        {
+            // Arrange
+            CreateProductCommand command = SampleCreateProductCommand();
+            command.Name = string.Empty;
+
+            // Act
+            var response = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json"));
+            var content = await response.Content.ReadAsStringAsync();
+            var responseViewModel = JsonConvert.DeserializeObject<string[]>(content);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.NotEmpty(responseViewModel);
+        }
+
+        private static CreateProductCommand SampleCreateProductCommand()
+        {
+            return new CreateProductCommand()
+            {
+                Name = "Name",
+                Brand = "Brand",
+                Description = "Description",
+                ProductCode = "ProductCode",
+                Price = 123
+            };
         }
     }
 }

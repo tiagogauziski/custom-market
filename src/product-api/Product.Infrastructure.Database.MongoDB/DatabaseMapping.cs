@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Product.Models;
@@ -15,6 +16,11 @@ namespace Product.Infrastructure.Database.MongoDB
         /// </summary>
         public static void RegisterMapping()
         {
+            if (BsonClassMap.GetRegisteredClassMaps().Count() > 0)
+            {
+                return;
+            }
+
             BsonClassMap.RegisterClassMap<Models.Product>(map =>
             {
                 map.AutoMap();

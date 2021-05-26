@@ -58,6 +58,54 @@ namespace Product.API.IntegrationTests.Controllers
             Assert.NotEmpty(responseViewModel);
         }
 
+        [Fact]
+        public async Task Create_WhenDuplicatedProductNameBrand_ShouldReturnConflict()
+        {
+            // Arrange
+            CreateProductCommand command = SampleCreateProductCommand();
+
+            // Act
+            var createResponse = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json"));
+
+            var duplicateResponse = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json"));
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.Conflict, duplicateResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_WhenValidProduct_ShouldReturnOk()
+        {
+            // Arrange
+            CreateProductCommand createCommand = SampleCreateProductCommand();
+
+            // Act
+            var createResponse = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
+            var createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
+
+            UpdateProductCommand updateCommand = new UpdateProductCommand()
+            {
+                Id = createGuid,
+                Name = "NameUpdate",
+                Brand = "BrandUpdate",
+                Description = "DescriptionUpdate",
+                ProductCode = "ProductCodeUpdate",
+                Price = 321
+            };
+
+            var updateResponse = await _client.PutAsync($"/api/v1/product/{createGuid}",
+               new StringContent(JsonConvert.SerializeObject(updateCommand), Encoding.UTF8, "application/json"));
+            var updateGuid = JsonConvert.DeserializeObject<Guid>(await updateResponse.Content.ReadAsStringAsync());
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
+            Assert.Equal(createGuid, updateGuid);
+        }
+
         private static CreateProductCommand SampleCreateProductCommand()
         {
             return new CreateProductCommand()

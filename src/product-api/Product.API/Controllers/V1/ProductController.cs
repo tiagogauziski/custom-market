@@ -63,7 +63,7 @@ namespace Product.API.Controllers.V1
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(Uri), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Uri), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status404NotFound)]
@@ -89,7 +89,7 @@ namespace Product.API.Controllers.V1
                 }
             }
 
-            return CreatedAtAction(nameof(GetById), new { id = result.Data }, result.Data);
+            return Ok(result.Data);
         }
 
         [HttpDelete]

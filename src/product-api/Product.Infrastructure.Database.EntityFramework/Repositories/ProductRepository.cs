@@ -16,7 +16,11 @@ namespace Product.Infrastructure.Database.EntityFramework.Repositories
             _productContext = productContext;
         }
 
-        public async Task CreateAsync(Models.Product product, CancellationToken cancellationToken) => await _productContext.AddAsync(product, cancellationToken);
+        public async Task CreateAsync(Models.Product product, CancellationToken cancellationToken)
+        {
+            await _productContext.AddAsync(product, cancellationToken);
+            await _productContext.SaveChangesAsync(cancellationToken);
+        }
 
         /// <inheritdoc />
         public async Task DeleteAsync(Models.Product product, CancellationToken cancellationToken)
@@ -28,7 +32,7 @@ namespace Product.Infrastructure.Database.EntityFramework.Repositories
         }
 
         /// <inheritdoc />
-        public async Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken) => await _productContext.Products.FindAsync(id, cancellationToken);
+        public async Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken) => await _productContext.Products.FindAsync(new object[] { id }, cancellationToken);
 
         /// <inheritdoc />
         public async Task<Models.Product> GetByNameBrandAsync(string name, string brand, CancellationToken cancellationToken)

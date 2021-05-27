@@ -28,7 +28,7 @@ namespace Product.Application.Command.Product.Commands
         /// <summary>
         /// Gets or sets price.
         /// </summary>
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Gets or sets description.

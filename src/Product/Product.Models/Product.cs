@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Product.Application.Query.Product.Responses
+namespace Product.Models
 {
     /// <summary>
-    /// Determines product model view.
+    /// Represents a product.
     /// </summary>
-    public class ProductResponseModel
+    public class Product
     {
         /// <summary>
         /// Gets or sets the Id.
@@ -30,11 +30,16 @@ namespace Product.Application.Query.Product.Responses
         /// <summary>
         /// Gets or sets the product price.
         /// </summary>
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Gets or sets the product description.
         /// </summary>
         public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id} Name: {Name}";
+        }
     }
 }

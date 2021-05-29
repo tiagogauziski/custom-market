@@ -12,9 +12,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -25,5 +23,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
+    - name: Unit Tests
       run: dotnet test --no-build --verbosity normal --filter UnitTests
+    - name: Execute integration tests
+      # working-directory: ./src
+      run: docker-compose --file docker-compose-integration.yml up --exit-code-from integration-tests

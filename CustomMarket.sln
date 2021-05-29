@@ -12,7 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{447C802D-3226-418E-957D-4DA7351948CD}"
 	ProjectSection(SolutionItems) = preProject
 		src\Product\.editorconfig = src\Product\.editorconfig
-		README.md = README.md
+		src\Product\README.md = src\Product\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Application.Command", "src\Product\Product.Application.Command\Product.Application.Command.csproj", "{934AE778-E77E-4259-B7F0-21D50B760FB7}"

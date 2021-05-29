@@ -1,0 +1,23 @@
+version: "3.4"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    # ports:
+      # - "27017:27017"
+  integration-tests:
+    container_name: integration-tests
+    image: mcr.microsoft.com/dotnet/sdk:5.0
+    environment:
+      - ProductDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+    volumes:
+      - .:/src
+    working_dir: /src/src/Product.IntegrationTests
+    command:
+      [
+        "dotnet",
+        "test",
+        "Product.IntegrationTests.csproj"
+      ]
+    depends_on:
+      - mongodb

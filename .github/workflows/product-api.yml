@@ -6,9 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
-defaults:
-  run:
-    working-directory: src/product-api
+# defaults:
+  # run:
+    # working-directory: src/product-api
 
 jobs:
   build:
@@ -26,4 +26,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --filter UnitTests

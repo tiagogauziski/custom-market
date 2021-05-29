@@ -51,7 +51,7 @@ namespace Product.Application.Query.UnitTests
                 Brand = "Brand",
                 Description = "Description",
                 Name = "Name",
-                Price = 123.45,
+                Price = 123.45m,
                 ProductCode = "ProductCode"
             };
 

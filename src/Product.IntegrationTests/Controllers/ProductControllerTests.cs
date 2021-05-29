@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Bogus;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
+using Product.Application.Command.Product.Commands;
+using Product.Application.Query.Product.Responses;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Bogus;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
-using Product.Application.Command.Product.Commands;
 using Xunit;
 
 namespace Product.API.IntegrationTests.Controllers
@@ -31,10 +32,10 @@ namespace Product.API.IntegrationTests.Controllers
             CreateProductCommand createCommand = GenerateCreateProductCommand();
 
             // Act
-            var response = await _client.PostAsync("/api/v1/product",
+            HttpResponseMessage response = await _client.PostAsync("/api/v1/product",
                new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
-            var content = await response.Content.ReadAsStringAsync();
-            var responseViewModel = JsonConvert.DeserializeObject<Guid>(content);
+            string content = await response.Content.ReadAsStringAsync();
+            Guid responseViewModel = JsonConvert.DeserializeObject<Guid>(content);
 
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -49,10 +50,10 @@ namespace Product.API.IntegrationTests.Controllers
             createCommand.Name = string.Empty;
 
             // Act
-            var response = await _client.PostAsync("/api/v1/product",
+            HttpResponseMessage response = await _client.PostAsync("/api/v1/product",
                new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
-            var content = await response.Content.ReadAsStringAsync();
-            var responseViewModel = JsonConvert.DeserializeObject<string[]>(content);
+            string content = await response.Content.ReadAsStringAsync();
+            string[] responseViewModel = JsonConvert.DeserializeObject<string[]>(content);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -66,10 +67,10 @@ namespace Product.API.IntegrationTests.Controllers
             CreateProductCommand createCommand = GenerateCreateProductCommand();
 
             // Act
-            var createResponse = await _client.PostAsync("/api/v1/product",
+            HttpResponseMessage createResponse = await _client.PostAsync("/api/v1/product",
                new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
 
-            var duplicateResponse = await _client.PostAsync("/api/v1/product",
+            HttpResponseMessage duplicateResponse = await _client.PostAsync("/api/v1/product",
                new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
 
             // Assert
@@ -84,11 +85,11 @@ namespace Product.API.IntegrationTests.Controllers
             CreateProductCommand createCommand = GenerateCreateProductCommand();
 
             // Act
-            var createResponse = await _client.PostAsync("/api/v1/product",
+            HttpResponseMessage createResponse = await _client.PostAsync("/api/v1/product",
                new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
-            var createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
+            Guid createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
 
-            var faker = new Faker();
+            Faker faker = new Faker();
             UpdateProductCommand updateCommand = new UpdateProductCommand()
             {
                 Id = createGuid,
@@ -98,18 +99,65 @@ namespace Product.API.IntegrationTests.Controllers
                 Price = faker.Finance.Amount(0, 1000)
             };
 
-            var updateResponse = await _client.PutAsync($"/api/v1/product/{createGuid}",
+            HttpResponseMessage updateResponse = await _client.PutAsync($"/api/v1/product/{createGuid}",
                new StringContent(JsonConvert.SerializeObject(updateCommand), Encoding.UTF8, "application/json"));
-            var updateGuid = JsonConvert.DeserializeObject<Guid>(await updateResponse.Content.ReadAsStringAsync());
+            Guid updateGuid = JsonConvert.DeserializeObject<Guid>(await updateResponse.Content.ReadAsStringAsync());
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, updateResponse.StatusCode);
             Assert.Equal(createGuid, updateGuid);
         }
 
+        [Fact]
+        public async Task Update_WhenInvalidGuid_ShouldReturnNotFound()
+        {
+            // Arrange
+
+            // Act
+            Faker faker = new Faker();
+            UpdateProductCommand updateCommand = new UpdateProductCommand()
+            {
+                Id = Guid.NewGuid(),
+                Name = faker.Commerce.ProductName(),
+                Brand = faker.Company.CompanyName(),
+                Description = faker.Commerce.ProductDescription(),
+                Price = faker.Finance.Amount(0, 1000)
+            };
+
+            HttpResponseMessage updateResponse = await _client.PutAsync($"/api/v1/product/{updateCommand.Id}",
+               new StringContent(JsonConvert.SerializeObject(updateCommand), Encoding.UTF8, "application/json"));
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, updateResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetById_WhenValidProduct_ShouldReturnOk()
+        {
+            // Arrange
+            CreateProductCommand createCommand = GenerateCreateProductCommand();
+
+            // Act
+            HttpResponseMessage createResponse = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
+            Guid createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
+
+            HttpResponseMessage getByIdResponse = await _client.GetAsync($"/api/v1/product/{createGuid}");
+            ProductResponseModel getByIdResponseModel = 
+                JsonConvert.DeserializeObject<ProductResponseModel>(await getByIdResponse.Content.ReadAsStringAsync());
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, getByIdResponse.StatusCode);
+            Assert.Equal(createCommand.Name, getByIdResponseModel.Name);
+            Assert.Equal(createCommand.Brand, getByIdResponseModel.Brand);
+            Assert.Equal(createCommand.Description, getByIdResponseModel.Description);
+            Assert.Equal(createCommand.Price, getByIdResponseModel.Price);
+            Assert.Equal(createCommand.ProductCode, getByIdResponseModel.ProductCode);
+        }
+
         private static CreateProductCommand GenerateCreateProductCommand()
         {
-            var testProduct = new Faker<CreateProductCommand>()
+            Faker<CreateProductCommand> testProduct = new Faker<CreateProductCommand>()
                 .RuleFor(product => product.Name, (faker, property) => faker.Commerce.ProductName())
                 .RuleFor(product => product.Brand, (faker, property) => faker.Company.CompanyName())
                 .RuleFor(product => product.Description, (faker, property) => faker.Commerce.ProductDescription())

@@ -30,7 +30,7 @@ namespace Product.Application.UnitTests.Product.Handlers
             var command = new CreateProductCommand();
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ModelValidationResult<Guid>>(result);
@@ -46,17 +46,10 @@ namespace Product.Application.UnitTests.Product.Handlers
                 .Setup(m => m.GetByNameBrandAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Models.Product());
 
-            var command = new CreateProductCommand()
-            {
-                Name = "Name",
-                Brand = "Brand",
-                Description = "Description",
-                Price = 100.12,
-                ProductCode = "ProductCode"
-            };
+            CreateProductCommand command = GenerateCreateProductCommand();
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ConflictResult<Guid>>(result);
@@ -68,17 +61,10 @@ namespace Product.Application.UnitTests.Product.Handlers
         public async Task CreateProductCommand_AllProperties_Success()
         {
             // Arrange
-            var command = new CreateProductCommand()
-            {
-                Name = "Name",
-                Brand = "Brand",
-                Description = "Description",
-                Price = 100.12,
-                ProductCode = "ProductCode"
-            };
+            CreateProductCommand command = GenerateCreateProductCommand();
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<SuccessResult<Guid>>(result);
@@ -100,17 +86,10 @@ namespace Product.Application.UnitTests.Product.Handlers
                     repositoryModel = product;
                 });
 
-            var command = new CreateProductCommand()
-            {
-                Name = "Name",
-                Brand = "Brand",
-                Description = "Description",
-                Price = 100.12,
-                ProductCode = "ProductCode"
-            };
+            CreateProductCommand command = GenerateCreateProductCommand();
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.Equal(command.Brand, repositoryModel.Brand);
@@ -119,5 +98,14 @@ namespace Product.Application.UnitTests.Product.Handlers
             Assert.Equal(command.Price, repositoryModel.Price);
             Assert.Equal(command.ProductCode, repositoryModel.ProductCode);
         }
+
+        private CreateProductCommand GenerateCreateProductCommand() => new CreateProductCommand()
+        {
+            Name = "Name",
+            Brand = "Brand",
+            Description = "Description",
+            Price = 100.12m,
+            ProductCode = "ProductCode"
+        };
     }
 }

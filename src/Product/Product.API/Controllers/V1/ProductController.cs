@@ -18,10 +18,7 @@ namespace Product.API.Controllers.V1
     {
         private readonly IMediator _mediator;
 
-        public ProductController(IMediator mediator)
-        {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+        public ProductController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpGet]
         [ProducesResponseType(typeof(ProductResponseModel), StatusCodes.Status200OK)]
@@ -29,7 +26,7 @@ namespace Product.API.Controllers.V1
         [Route("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await _mediator.Send(new GetProductByIdQuery(id)).ConfigureAwait(false);
+            ProductResponseModel result = await _mediator.Send(new GetProductByIdQuery(id)).ConfigureAwait(false);
 
             if (result is null)
             {
@@ -45,7 +42,7 @@ namespace Product.API.Controllers.V1
         [ProducesResponseType(typeof(string[]), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateProductCommand command)
         {
-            var result = await _mediator.Send(command);
+            IResult<Guid> result = await _mediator.Send(command);
 
             if (!result.IsSuccessful)
             {
@@ -71,7 +68,7 @@ namespace Product.API.Controllers.V1
         public async Task<IActionResult> Update([FromRoute] Guid id, UpdateProductCommand command)
         {
             command.Id = id;
-            var result = await _mediator.Send(command);
+            IResult<Guid> result = await _mediator.Send(command);
 
             if (!result.IsSuccessful)
             {
@@ -104,7 +101,7 @@ namespace Product.API.Controllers.V1
                 Id = id
             };
 
-            var result = await _mediator.Send(command);
+            IResult<bool> result = await _mediator.Send(command);
 
             if (!result.IsSuccessful)
             {

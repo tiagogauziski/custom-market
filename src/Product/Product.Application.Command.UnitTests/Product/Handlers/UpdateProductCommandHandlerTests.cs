@@ -30,7 +30,7 @@ namespace Product.Application.UnitTests.Product.Handlers
             var command = new UpdateProductCommand();
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ModelValidationResult<Guid>>(result);
@@ -66,12 +66,12 @@ namespace Product.Application.UnitTests.Product.Handlers
                 Name = "Name",
                 Brand = "Brand",
                 Description = "Description",
-                Price = 100.12,
+                Price = 100.12m,
                 ProductCode = "ProductCode"
             };
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<ConflictResult<Guid>>(result);
@@ -107,12 +107,12 @@ namespace Product.Application.UnitTests.Product.Handlers
                 Name = "Name",
                 Brand = "Brand",
                 Description = "Description",
-                Price = 100.12,
+                Price = 100.12m,
                 ProductCode = "ProductCode"
             };
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<SuccessResult<Guid>>(result);
@@ -158,12 +158,12 @@ namespace Product.Application.UnitTests.Product.Handlers
                 Name = "Name",
                 Brand = "Brand",
                 Description = "Description",
-                Price = 100.12,
+                Price = 100.12m,
                 ProductCode = "ProductCode"
             };
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<Guid> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.Equal(command.Brand, repositoryModel.Brand);

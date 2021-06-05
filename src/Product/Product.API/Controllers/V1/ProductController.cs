@@ -105,7 +105,7 @@ namespace Product.API.Controllers.V1
 
             if (!result.IsSuccessful)
             {
-                if (result is NotFoundResult<Guid>)
+                if (result is NotFoundResult<bool>)
                 {
                     return base.NotFound();
                 }

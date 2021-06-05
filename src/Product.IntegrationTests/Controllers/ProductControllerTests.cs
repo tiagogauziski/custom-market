@@ -143,7 +143,7 @@ namespace Product.API.IntegrationTests.Controllers
             Guid createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
 
             HttpResponseMessage getByIdResponse = await _client.GetAsync($"/api/v1/product/{createGuid}");
-            ProductResponseModel getByIdResponseModel = 
+            ProductResponseModel getByIdResponseModel =
                 JsonConvert.DeserializeObject<ProductResponseModel>(await getByIdResponse.Content.ReadAsStringAsync());
 
             // Assert
@@ -153,6 +153,49 @@ namespace Product.API.IntegrationTests.Controllers
             Assert.Equal(createCommand.Description, getByIdResponseModel.Description);
             Assert.Equal(createCommand.Price, getByIdResponseModel.Price);
             Assert.Equal(createCommand.ProductCode, getByIdResponseModel.ProductCode);
+        }
+
+        [Fact]
+        public async Task GetById_WhenInvalidProductId_ShouldReturnNotFound()
+        {
+            // Arrange
+            Guid invalidProduct = Guid.NewGuid();
+
+            // Act
+            HttpResponseMessage getByIdResponse = await _client.GetAsync($"/api/v1/product/{invalidProduct}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, getByIdResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_WhenValidProduct_ShouldReturnNoContent()
+        {
+            // Arrange
+            CreateProductCommand createCommand = GenerateCreateProductCommand();
+
+            // Act
+            HttpResponseMessage createResponse = await _client.PostAsync("/api/v1/product",
+               new StringContent(JsonConvert.SerializeObject(createCommand), Encoding.UTF8, "application/json"));
+            Guid createGuid = JsonConvert.DeserializeObject<Guid>(await createResponse.Content.ReadAsStringAsync());
+
+            HttpResponseMessage updateResponse = await _client.DeleteAsync($"/api/v1/product/{createGuid}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_WhenInvalidProduct_ShouldReturnNotFound()
+        {
+            // Arrange
+            Guid invalidProduct = Guid.NewGuid();
+
+            // Act
+            HttpResponseMessage updateResponse = await _client.DeleteAsync($"/api/v1/product/{invalidProduct}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, updateResponse.StatusCode);
         }
 
         private static CreateProductCommand GenerateCreateProductCommand()

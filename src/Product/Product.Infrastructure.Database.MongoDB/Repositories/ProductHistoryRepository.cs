@@ -35,7 +35,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc />
         public async Task SaveEventAsync(EventBase systemEvent, CancellationToken cancellationToken)
         {
-            ProductHistory productHistory = new()
+            ProductHistory productHistory = new ProductHistory
             {
                 Id = Guid.NewGuid(),
                 ProductId = systemEvent.ObjectId,

@@ -34,7 +34,7 @@ namespace Product.Application.Command.Product.Handlers
         /// <inheritdoc />
         public async Task<IResult<bool>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var existingProduct = await _productRepository.GetByIdAsync(request.Id, cancellationToken).ConfigureAwait(false);
+            Models.Product existingProduct = await _productRepository.GetByIdAsync(request.Id, cancellationToken).ConfigureAwait(false);
             if (existingProduct is null)
             {
                 return new NotFoundResult<bool>("Unable to find the product.");

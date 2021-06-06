@@ -61,7 +61,7 @@ namespace Product.Application.Query.UnitTests
                 .Verifiable();
 
             // Act
-            var productResponse =
+            Product.Responses.ProductResponseModel productResponse =
                 await _productQueryHandler.Handle(
                     new GetProductByIdQuery(productId),
                     CancellationToken.None).ConfigureAwait(false);
@@ -89,7 +89,7 @@ namespace Product.Application.Query.UnitTests
                 .ReturnsAsync(productModel);
 
             // Act
-            var productResponse =
+            Product.Responses.ProductResponseModel productResponse =
                 await _productQueryHandler.Handle(
                     new GetProductByIdQuery(Guid.NewGuid()),
                     CancellationToken.None).ConfigureAwait(false);

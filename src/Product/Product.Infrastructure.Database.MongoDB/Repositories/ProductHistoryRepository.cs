@@ -27,7 +27,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         {
             _mongoClient = mongoClient ?? throw new ArgumentNullException(nameof(mongoClient));
 
-            var database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
+            IMongoDatabase database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
 
             _productHistoryCollection = database.GetCollection<ProductHistory>("product-history");
         }
@@ -35,7 +35,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc />
         public async Task SaveEventAsync(EventBase systemEvent, CancellationToken cancellationToken)
         {
-            ProductHistory productHistory = new ()
+            ProductHistory productHistory = new()
             {
                 Id = Guid.NewGuid(),
                 ProductId = systemEvent.ObjectId,

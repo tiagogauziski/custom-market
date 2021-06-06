@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using System.IO;
 
 namespace Product.API.IntegrationTests
 {
@@ -15,7 +15,7 @@ namespace Product.API.IntegrationTests
             string fullPath = System.Reflection.Assembly.GetAssembly(typeof(CustomWebApplicationFactory<Startup>)).Location;
             string directory = Path.GetDirectoryName(fullPath);
 
-            var builder = Host
+            IHostBuilder builder = Host
                 .CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(x =>
                 {

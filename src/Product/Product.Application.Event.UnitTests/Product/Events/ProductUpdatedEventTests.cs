@@ -27,7 +27,7 @@ namespace Product.Application.Event.UnitTests.Product.Events
             var systemEvent = new ProductUpdatedEvent(oldModel, newModel);
 
             // Act
-            var changes = systemEvent.GetChanges();
+            string changes = systemEvent.GetChanges();
 
             // Assert
             Assert.NotEmpty(changes);

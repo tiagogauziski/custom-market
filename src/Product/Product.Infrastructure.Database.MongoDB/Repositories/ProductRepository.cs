@@ -25,7 +25,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         {
             _mongoClient = mongoClient ?? throw new ArgumentNullException(nameof(mongoClient));
 
-            var database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
+            IMongoDatabase database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
 
             _products = database.GetCollection<Models.Product>("product");
         }
@@ -45,7 +45,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc/>
         public async Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var product =
+            IAsyncCursor<Models.Product> product =
                 await _products.FindAsync(
                     (product) => product.Id == id,
                     cancellationToken: cancellationToken).ConfigureAwait(false);
@@ -56,7 +56,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
         /// <inheritdoc />
         public async Task<Models.Product> GetByNameBrandAsync(string name, string brand, CancellationToken cancellationToken)
         {
-            var product =
+            IAsyncCursor<Models.Product> product =
                await _products.FindAsync(
                    (product) => product.Name == name && product.Brand == brand,
                    cancellationToken: cancellationToken).ConfigureAwait(false);

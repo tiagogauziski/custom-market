@@ -47,7 +47,7 @@ namespace Product.Application.Command.UnitTests.Product.Handlers
             };
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<bool> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<SuccessResult<bool>>(result);
@@ -76,7 +76,7 @@ namespace Product.Application.Command.UnitTests.Product.Handlers
             };
 
             // Act
-            var result = await _commandHandler.Handle(command, CancellationToken.None);
+            IResult<bool> result = await _commandHandler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.IsType<NotFoundResult<bool>>(result);

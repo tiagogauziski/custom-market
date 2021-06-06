@@ -20,7 +20,7 @@ namespace Product.Infrastructure.Database.MongoDB
 
             services.AddSingleton((serviceProvider) =>
             {
-                var settings = serviceProvider.GetRequiredService<IProductDatabaseSettings>();
+                IProductDatabaseSettings settings = serviceProvider.GetRequiredService<IProductDatabaseSettings>();
 
                 return new MongoClient(settings.ConnectionString);
             });

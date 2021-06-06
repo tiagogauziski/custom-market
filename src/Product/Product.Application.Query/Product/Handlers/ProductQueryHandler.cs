@@ -33,7 +33,7 @@ namespace Product.Application.Query.Product.Handlers
                 throw new ArgumentNullException(nameof(getProductByIdQuery));
             }
 
-            var productModel = await _productRepository.GetByIdAsync(getProductByIdQuery.Id, cancellationToken).ConfigureAwait(false);
+            Models.Product productModel = await _productRepository.GetByIdAsync(getProductByIdQuery.Id, cancellationToken).ConfigureAwait(false);
 
             if (productModel is null)
             {

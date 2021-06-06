@@ -19,7 +19,7 @@ namespace Product.Application.Event.UnitTests.Product.Events
             var systemEvent = new ProductCreatedEvent(model);
 
             // Act
-            var changes = systemEvent.GetChanges();
+            string changes = systemEvent.GetChanges();
 
             // Assert
             Assert.NotEmpty(changes);

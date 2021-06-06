@@ -1,13 +1,13 @@
-﻿using Bogus;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
-using Product.Application.Command.Product.Commands;
-using Product.Application.Query.Product.Responses;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
+using Product.Application.Command.Product.Commands;
+using Product.Application.Query.Product.Responses;
 using Xunit;
 
 namespace Product.API.IntegrationTests.Controllers

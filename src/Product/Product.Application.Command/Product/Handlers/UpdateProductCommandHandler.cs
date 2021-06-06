@@ -46,13 +46,13 @@ namespace Product.Application.Command.Product.Handlers
                 return new ModelValidationResult<Guid>(validationResult.Errors.Select(error => error.ErrorMessage));
             }
 
-            var existingProduct = await _productRepository.GetByIdAsync(request.Id, cancellationToken).ConfigureAwait(false);
+            Models.Product existingProduct = await _productRepository.GetByIdAsync(request.Id, cancellationToken).ConfigureAwait(false);
             if (existingProduct is null)
             {
                 return new NotFoundResult<Guid>("Unable to find the product.");
             }
 
-            var duplicateProduct = await _productRepository.GetByNameBrandAsync(request.Name, request.Brand, cancellationToken).ConfigureAwait(false);
+            Models.Product duplicateProduct = await _productRepository.GetByNameBrandAsync(request.Name, request.Brand, cancellationToken).ConfigureAwait(false);
             if (duplicateProduct is not null && duplicateProduct.Id != existingProduct.Id)
             {
                 return new ConflictResult<Guid>("Duplicate product. Please provide an unique product entry.");

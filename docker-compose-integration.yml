@@ -12,12 +12,12 @@ services:
       - ProductDatabaseSettings__ConnectionString=mongodb://mongodb:27017
     volumes:
       - ./src:/src
-    working_dir: /src/Product.IntegrationTests
+    working_dir: /src/Product/Product.API.IntegrationTests
     command:
       [
         "dotnet",
         "test",
-        "Product.IntegrationTests.csproj"
+        "Product.API.IntegrationTests.csproj"
       ]
     depends_on:
       - mongodb

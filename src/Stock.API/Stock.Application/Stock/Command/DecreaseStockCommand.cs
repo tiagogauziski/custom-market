@@ -5,7 +5,7 @@ namespace Stock.Application.Stock.Command
     /// <summary>
     /// Defines a command to increase the stock .
     /// </summary>
-    public record DecreaseStockCommand
+    public class DecreaseStockCommand
     {
         /// <summary>
         /// Gets or sets product id.

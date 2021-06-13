@@ -1,11 +1,13 @@
 ﻿using System;
+using FluentResults;
+using MediatR;
 
 namespace Stock.Application.Stock.Command
 {
     /// <summary>
     /// Defines a command to decrease the stock quantity quantity.
     /// </summary>
-    public class IncreaseStockCommand
+    public class IncreaseStockCommand : IRequest<Result<Guid>>
     {
         /// <summary>
         /// Gets or sets product id.

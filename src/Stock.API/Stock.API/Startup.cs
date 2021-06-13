@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stock.Application;
 
 namespace Stock.API
 {
@@ -19,6 +20,9 @@ namespace Stock.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // Add application layer dependencies.
+            services.AddApplicationLayer();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();

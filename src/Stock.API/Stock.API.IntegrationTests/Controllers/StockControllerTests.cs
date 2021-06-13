@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -36,7 +37,7 @@ namespace Stock.API.IntegrationTests.Controllers
             HttpResponseMessage response = await _client.PutAsync($"/api/v1/stock/{increaseStockCommand.ProductId}/increase",
                new StringContent(JsonConvert.SerializeObject(increaseStockCommand), Encoding.UTF8, "application/json"));
             string content = await response.Content.ReadAsStringAsync();
-            Error[] responseViewModel = JsonConvert.DeserializeObject<Error[]>(content);
+            string[] responseViewModel = JsonConvert.DeserializeObject<string[]>(content);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -54,7 +55,7 @@ namespace Stock.API.IntegrationTests.Controllers
             HttpResponseMessage response = await _client.PutAsync($"/api/v1/stock/{increaseStockCommand.ProductId}/increase",
                new StringContent(JsonConvert.SerializeObject(increaseStockCommand), Encoding.UTF8, "application/json"));
             string content = await response.Content.ReadAsStringAsync();
-            Error[] responseViewModel = JsonConvert.DeserializeObject<Error[]>(content);
+            string[] responseViewModel = JsonConvert.DeserializeObject<string[]>(content);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);

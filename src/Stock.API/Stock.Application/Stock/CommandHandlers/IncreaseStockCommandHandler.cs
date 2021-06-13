@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentResults;
+using FluentValidation.Results;
 using MediatR;
 using Stock.Application.Stock.Command;
+using Stock.Application.Stock.Validations;
 
 namespace Stock.Application.Stock.CommandHandlers
 {
@@ -13,22 +16,20 @@ namespace Stock.Application.Stock.CommandHandlers
     public class IncreaseStockCommandHandler : IRequestHandler<IncreaseStockCommand, Result<Guid>>
     {
         /// <inheritdoc/>
-        public Task<Result<Guid>> Handle(IncreaseStockCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(IncreaseStockCommand request, CancellationToken cancellationToken)
         {
-            // Validate command - is product guid valid?
-            if (request.ProductId == Guid.Empty)
-            {
-                return Task.FromResult(Result.Fail<Guid>("Product Id cannot be empty."));
-            }
+            // Validate command
+            var validation = new IncreaseStockCommandValidation();
 
-            // Validate command - is product guid valid?
-            if (request.Quantity <= 0)
+            ValidationResult validationResult = await validation.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
             {
-                return Task.FromResult(Result.Fail<Guid>("Quantity is invalid."));
+                return Result.Merge(validationResult.Errors.Select(validationError => Result.Fail(validationError.ErrorMessage)).ToArray());
             }
 
             // Does the product exists?
-            return Task.FromResult(Result.Ok(Guid.NewGuid()));
+            return Result.Ok(Guid.NewGuid());
         }
     }
 }

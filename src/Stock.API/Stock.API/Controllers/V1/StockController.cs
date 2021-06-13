@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +50,7 @@ namespace Stock.API.Controllers.V1
             }
             else
             {
-                return BadRequest(result.Errors);
+                return BadRequest(result.Errors.Select(error => error.Message));
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Stock.Application.Product.Service;
 
 namespace Stock.Application
 {
@@ -15,6 +16,7 @@ namespace Stock.Application
         public static void AddApplicationLayer(this IServiceCollection services)
         {
             services.AddMediatR(typeof(ServiceCollectionExtension));
+            services.AddHttpClient<IProductService, ProductService>();
         }
     }
 }

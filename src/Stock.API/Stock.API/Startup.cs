@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Stock.Application;
+using Stock.Application.Settings;
 
 namespace Stock.API
 {
@@ -13,12 +16,33 @@ namespace Stock.API
     public class Startup
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">Configuration.</param>
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        /// <summary>
+        /// Gets the web application configuration.
+        /// </summary>
+        public IConfiguration Configuration { get; }
+
+        /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940.
         /// </summary>
         /// <param name="services">Dependency injection container.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions<ProductServiceSettings>()
+                .Bind(Configuration.GetSection("ProductServiceSettings"))
+                .ValidateDataAnnotations();
+
+            services.AddSingleton<IProductServiceSettings>(sp =>
+                sp.GetRequiredService<IOptions<ProductServiceSettings>>().Value);
+
             services.AddControllers();
 
             // Add application layer dependencies.

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using FluentResults;
 using FluentValidation.Results;
 using MediatR;
+using Stock.Application.Product.Errors;
+using Stock.Application.Product.Service;
 using Stock.Application.Stock.Command;
 using Stock.Application.Stock.Validations;
 
@@ -15,6 +17,17 @@ namespace Stock.Application.Stock.CommandHandlers
     /// </summary>
     public class IncreaseStockCommandHandler : IRequestHandler<IncreaseStockCommand, Result<Guid>>
     {
+        private readonly IProductService _productService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncreaseStockCommandHandler"/> class.
+        /// </summary>
+        /// <param name="productService">Product service.</param>
+        public IncreaseStockCommandHandler(IProductService productService)
+        {
+            _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        }
+
         /// <inheritdoc/>
         public async Task<Result<Guid>> Handle(IncreaseStockCommand request, CancellationToken cancellationToken)
         {
@@ -29,6 +42,16 @@ namespace Stock.Application.Stock.CommandHandlers
             }
 
             // Does the product exists?
+            var productResult = await _productService.GetProductByIdAsync(request.ProductId, cancellationToken).ConfigureAwait(false);
+            if (productResult.HasError<ProductNotFoundError>())
+            {
+                return Result.Fail(productResult.Errors.First());
+            }
+            else if (productResult.IsFailed)
+            {
+                return Result.Fail("Unable to get product details.");
+            }
+
             return Result.Ok(Guid.NewGuid());
         }
     }

@@ -7,12 +7,12 @@ using System.IO;
 
 namespace Stock.API.IntegrationTests
 {
-    public class CustomWebApplicationFactory<TStartup>
+    public class StockApiWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override IHostBuilder CreateHostBuilder()
         {
-            string fullPath = System.Reflection.Assembly.GetAssembly(typeof(CustomWebApplicationFactory<Startup>)).Location;
+            string fullPath = System.Reflection.Assembly.GetAssembly(typeof(StockApiWebApplicationFactory<Startup>)).Location;
             string directory = Path.GetDirectoryName(fullPath);
 
             IHostBuilder builder = Host

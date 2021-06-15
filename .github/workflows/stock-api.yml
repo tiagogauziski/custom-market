@@ -1,4 +1,4 @@
-name: Product API
+name: Stock API
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: src/Product.API
+    working-directory: src/Stock.API
 
 jobs:
   build:
@@ -25,6 +25,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Unit Tests
       run: dotnet test --no-build --verbosity normal --filter UnitTests
-    - name: Execute integration tests
-      # working-directory: ./src
-      run: docker-compose --file docker-compose-integration.yml up --exit-code-from integration-tests
+    # - name: Execute integration tests
+      # run: docker-compose --file docker-compose-integration.yml up --exit-code-from integration-tests

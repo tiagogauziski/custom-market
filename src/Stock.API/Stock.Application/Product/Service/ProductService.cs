@@ -41,11 +41,20 @@ namespace Stock.Application.Product.Service
         /// <inheritdoc />
         public async Task<Result<ProductResponse>> GetProductByIdAsync(Guid productId, CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"/api/v1/product/{productId}", cancellationToken).ConfigureAwait(false);
+            HttpResponseMessage response;
+            try
+            {
+                response = await _httpClient.GetAsync($"/api/v1/product/{productId}", cancellationToken).ConfigureAwait(false);
+            }
+            catch (HttpRequestException)
+            {
+                // TODO: handle the exception better. maybe log it and return error.
+                throw;
+            }
 
             if (response.IsSuccessStatusCode)
             {
-                return Result.Ok(await response.Content.ReadFromJsonAsync<ProductResponse>().ConfigureAwait(false));
+                return Result.Ok(await response.Content.ReadFromJsonAsync<ProductResponse>(cancellationToken: cancellationToken).ConfigureAwait(false));
             }
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {

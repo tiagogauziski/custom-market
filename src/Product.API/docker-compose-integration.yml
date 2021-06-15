@@ -3,16 +3,14 @@ services:
   mongodb:
     container_name: mongodb
     image: mongo
-    # ports:
-      # - "27017:27017"
   integration-tests:
     container_name: integration-tests
     image: mcr.microsoft.com/dotnet/sdk:5.0
     environment:
       - ProductDatabaseSettings__ConnectionString=mongodb://mongodb:27017
     volumes:
-      - ./src:/src
-    working_dir: /src/Product/Product.API.IntegrationTests
+      - .:/src
+    working_dir: /src/Product.API.IntegrationTests
     command:
       [
         "dotnet",

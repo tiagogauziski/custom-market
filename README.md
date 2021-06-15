@@ -6,3 +6,6 @@ The goal of this project is to implement a complete implementation (API and UI) 
 ## Build status:
 ### Product API
 [![Product API](https://github.com/tiagogauziski/custom-market/actions/workflows/product-api.yml/badge.svg)](https://github.com/tiagogauziski/custom-market/actions/workflows/product-api.yml)
+
+### Stock API
+[![Stock API](https://github.com/tiagogauziski/custom-market/actions/workflows/stock-api.yml/badge.svg)](https://github.com/tiagogauziski/custom-market/actions/workflows/stock-api.yml)

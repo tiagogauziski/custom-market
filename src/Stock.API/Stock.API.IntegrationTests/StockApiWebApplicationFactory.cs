@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RichardSzalay.MockHttp;
+using Stock.Application.Product.Service;
 using System.IO;
+using System.Net.Http;
 
 namespace Stock.API.IntegrationTests
 {
@@ -12,14 +16,20 @@ namespace Stock.API.IntegrationTests
     {
         protected override IHostBuilder CreateHostBuilder()
         {
+
             string fullPath = System.Reflection.Assembly.GetAssembly(typeof(StockApiWebApplicationFactory<Startup>)).Location;
             string directory = Path.GetDirectoryName(fullPath);
 
             IHostBuilder builder = Host
                 .CreateDefaultBuilder()
-                .ConfigureWebHostDefaults(x =>
+                .ConfigureWebHostDefaults(webHostBuilder =>
                 {
-                    x.UseStartup<TStartup>().UseTestServer();
+                    webHostBuilder
+                        .UseStartup<TStartup>()
+                        .ConfigureTestServices(services =>
+                        {
+                        })
+                        .UseTestServer();
                 })
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {

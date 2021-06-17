@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
-using FluentResults;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
+using Stock.Application.Product.Contracts.V1;
+using Stock.Application.Product.Service;
 using Stock.Application.Stock.Command;
 using Xunit;
 
@@ -16,12 +19,28 @@ namespace Stock.API.IntegrationTests.Controllers
     public class StockControllerTests
        : IClassFixture<StockApiWebApplicationFactory<Startup>>
     {
-        private readonly StockApiWebApplicationFactory<Startup> _factory;
+        private readonly WebApplicationFactory<Startup> _factory;
         private readonly HttpClient _client;
 
         public StockControllerTests(StockApiWebApplicationFactory<Startup> factory)
         {
             _factory = new StockApiWebApplicationFactory<Startup>();
+
+            _factory = _factory.WithWebHostBuilder(configuration =>
+            {
+                configuration.ConfigureTestServices(services =>
+                {
+                    // TODO: use a better way of creating a fake http client to mock product api request/response.
+                    var mockHttp = new MockHttpMessageHandler(BackendDefinitionBehavior.NoExpectations);
+
+                    // Setup a respond for the user api (including a wildcard in the URL)
+                    mockHttp.When(HttpMethod.Get, "http://localhost/api/v1/product/*")
+                            .Respond(HttpStatusCode.OK, "application/json", JsonConvert.SerializeObject(new ProductResponse())); // Respond with JSON
+                    services
+                        .AddHttpClient<IProductService, ProductService>()
+                        .ConfigurePrimaryHttpMessageHandler(configureHandler => mockHttp);
+                });
+            });
 
             _client = _factory.CreateClient(new WebApplicationFactoryClientOptions());
         }
@@ -71,6 +90,9 @@ namespace Stock.API.IntegrationTests.Controllers
             // Act
             HttpResponseMessage response = await _client.PutAsync($"/api/v1/stock/{increaseStockCommand.ProductId}/increase",
                new StringContent(JsonConvert.SerializeObject(increaseStockCommand), Encoding.UTF8, "application/json"));
+
+            response.EnsureSuccessStatusCode();
+
             string content = await response.Content.ReadAsStringAsync();
             Guid responseViewModel = JsonConvert.DeserializeObject<Guid>(content);
 

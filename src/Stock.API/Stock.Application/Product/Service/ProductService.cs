@@ -62,7 +62,7 @@ namespace Stock.Application.Product.Service
             }
             else
             {
-                return Result.Fail("Unexpected response from Product API.");
+                return Result.Fail(new ProductUnexpectedResponseError(response.StatusCode));
             }
         }
     }

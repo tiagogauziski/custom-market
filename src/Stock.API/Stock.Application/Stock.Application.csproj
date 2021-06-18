@@ -19,5 +19,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stock.Infrastructure.Database.Abstractions\Stock.Infrastructure.Database.Abstractions.csproj" />
+  </ItemGroup>
   
 </Project>

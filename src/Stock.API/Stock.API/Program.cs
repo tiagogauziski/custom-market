@@ -12,10 +12,7 @@ namespace Stock.API
         /// Entrypoint method.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        public static void Main(string[] args) => CreateHostBuilder(args).Build().Run();
 
         /// <summary>
         /// Creates a web host.

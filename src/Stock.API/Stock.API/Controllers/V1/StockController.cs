@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,7 @@ namespace Stock.API.Controllers.V1
         /// Initializes a new instance of the <see cref="StockController"/> class.
         /// </summary>
         /// <param name="mediator">Command and query mediator.</param>
-        public StockController(IMediator mediator)
-        {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+        public StockController(IMediator mediator) => _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         /// <summary>
         /// Increase stock for given product.
@@ -37,12 +35,12 @@ namespace Stock.API.Controllers.V1
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Increase(
-            [FromRoute]Guid productId,
-            [FromBody]IncreaseStockCommand command)
+            [FromRoute] Guid productId,
+            [FromBody] IncreaseStockCommand command)
         {
             command.ProductId = productId;
 
-            var result = await _mediator.Send(command);
+            Result<Guid> result = await _mediator.Send(command);
 
             if (result.IsSuccess)
             {

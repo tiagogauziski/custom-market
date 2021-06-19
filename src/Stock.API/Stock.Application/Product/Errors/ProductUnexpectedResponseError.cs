@@ -13,10 +13,7 @@ namespace Stock.Application.Product.Errors
         /// </summary>
         /// <param name="httpStatusCode">Product API status code response.</param>
         public ProductUnexpectedResponseError(HttpStatusCode httpStatusCode)
-            : base("Unexpected response from Product API.")
-        {
-            HttpStatusCode = httpStatusCode;
-        }
+            : base("Unexpected response from Product API.") => HttpStatusCode = httpStatusCode;
 
         /// <summary>
         /// Gets the HTTP status code returned from Product API.

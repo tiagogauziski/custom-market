@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentResults;
 using FluentValidation.Results;
 using MediatR;
+using Stock.Application.Product.Contracts.V1;
 using Stock.Application.Product.Errors;
 using Stock.Application.Product.Service;
 using Stock.Application.Stock.Command;
@@ -23,10 +24,7 @@ namespace Stock.Application.Stock.CommandHandlers
         /// Initializes a new instance of the <see cref="IncreaseStockCommandHandler"/> class.
         /// </summary>
         /// <param name="productService">Product service.</param>
-        public IncreaseStockCommandHandler(IProductService productService)
-        {
-            _productService = productService ?? throw new ArgumentNullException(nameof(productService));
-        }
+        public IncreaseStockCommandHandler(IProductService productService) => _productService = productService ?? throw new ArgumentNullException(nameof(productService));
 
         /// <inheritdoc/>
         public async Task<Result<Guid>> Handle(IncreaseStockCommand request, CancellationToken cancellationToken)
@@ -42,7 +40,7 @@ namespace Stock.Application.Stock.CommandHandlers
             }
 
             // Does the product exists?
-            var productResult = await _productService.GetProductByIdAsync(request.ProductId, cancellationToken).ConfigureAwait(false);
+            Result<ProductResponse> productResult = await _productService.GetProductByIdAsync(request.ProductId, cancellationToken).ConfigureAwait(false);
             if (productResult.HasError<ProductNotFoundError>())
             {
                 return Result.Fail(productResult.Errors.First());

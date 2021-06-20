@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Stock.Application.Stock.Command;
+using Stock.Application.Stock.Commands;
 
 namespace Stock.Application.Stock.Validations
 {

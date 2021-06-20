@@ -62,6 +62,7 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
             await _stockCollection.ReplaceOneAsync(
                 (dbStock) => dbStock.ProductId == increaseStockModel.ProductId,
                 stock,
+                new ReplaceOptions() { IsUpsert = true },
                 cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }

@@ -2,7 +2,7 @@
 using FluentResults;
 using MediatR;
 
-namespace Stock.Application.Stock.Command
+namespace Stock.Application.Stock.Commands
 {
     /// <summary>
     /// Defines a command to decrease the stock quantity quantity.
@@ -17,6 +17,6 @@ namespace Stock.Application.Stock.Command
         /// <summary>
         /// Gets or sets the quantity of the product to increase the stock.
         /// </summary>
-        public double Quantity { get; set; }
+        public long Quantity { get; set; }
     }
 }

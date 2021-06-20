@@ -15,6 +15,6 @@ namespace Stock.Domain.Models
         /// <summary>
         /// Gets or sets the quantity.
         /// </summary>
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
     }
 }

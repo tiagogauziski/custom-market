@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stock.Application.Stock.Command
+namespace Stock.Application.Stock.Commands
 {
     /// <summary>
     /// Defines a command to increase the stock .

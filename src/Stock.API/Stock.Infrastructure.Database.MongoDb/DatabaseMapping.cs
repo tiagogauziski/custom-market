@@ -31,7 +31,7 @@ namespace Stock.Infrastructure.Database.MongoDb
                 map.MapIdMember(field => field.ProductId).SetSerializer(new GuidSerializer(BsonType.String));
             });
 
-            BsonClassMap.RegisterClassMap<StockHistory>(map =>
+            BsonClassMap.RegisterClassMap<StockHistoryModel>(map =>
             {
                 map.AutoMap();
                 map.MapIdMember(field => field.Id).SetSerializer(new GuidSerializer(BsonType.String));

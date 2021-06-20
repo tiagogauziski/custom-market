@@ -27,7 +27,7 @@ namespace Stock.Infrastructure.Database.MongoDb
             });
 
             services.AddSingleton<IStockRespository, StockRepository>();
-            ////services.AddSingleton<IStockHistoryRepository, StockHistoryRepository>();
+            services.AddSingleton<IStockHistoryRepository, StockHistoryRepository>();
         }
     }
 }

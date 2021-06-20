@@ -5,7 +5,7 @@ namespace Stock.Domain.Models
     /// <summary>
     /// Defiones a stock history model.
     /// </summary>
-    public class StockHistory
+    public class StockHistoryModel
     {
         /// <summary>
         /// Gets or sets the stock history id.

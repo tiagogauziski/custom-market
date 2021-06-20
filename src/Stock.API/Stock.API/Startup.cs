@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Stock.Application;
 using Stock.Application.Settings;
+using Stock.Infrastructure.Database.MongoDb;
+using Stock.Infrastructure.Database.MongoDb.Settings;
 
 namespace Stock.API
 {
@@ -39,10 +41,20 @@ namespace Stock.API
             services.AddSingleton<IProductServiceSettings>(sp =>
                 sp.GetRequiredService<IOptions<ProductServiceSettings>>().Value);
 
+            services.AddOptions<StockDatabaseSettings>()
+                .Bind(Configuration.GetSection("StockDatabaseSettings"))
+                .ValidateDataAnnotations();
+
+            services.AddSingleton<IStockDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<StockDatabaseSettings>>().Value);
+
             services.AddControllers();
 
             // Add application layer dependencies.
             services.AddApplicationLayer();
+
+            // Add infrastrucure - database layer
+            services.AddInfrastructureDatabaseMongoDb();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();

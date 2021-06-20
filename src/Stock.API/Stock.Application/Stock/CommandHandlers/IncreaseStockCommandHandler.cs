@@ -8,8 +8,11 @@ using MediatR;
 using Stock.Application.Product.Contracts.V1;
 using Stock.Application.Product.Errors;
 using Stock.Application.Product.Service;
-using Stock.Application.Stock.Command;
+using Stock.Application.Stock.Commands;
+using Stock.Application.Stock.Events;
 using Stock.Application.Stock.Validations;
+using Stock.Domain.Models;
+using Stock.Infrastructure.Database.Abstractions;
 
 namespace Stock.Application.Stock.CommandHandlers
 {
@@ -19,12 +22,24 @@ namespace Stock.Application.Stock.CommandHandlers
     public class IncreaseStockCommandHandler : IRequestHandler<IncreaseStockCommand, Result<Guid>>
     {
         private readonly IProductService _productService;
+        private readonly IStockRespository _stockRespository;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IncreaseStockCommandHandler"/> class.
         /// </summary>
         /// <param name="productService">Product service.</param>
-        public IncreaseStockCommandHandler(IProductService productService) => _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        /// <param name="stockRespository">Stock repository.</param>
+        /// <param name="mediator">Mediator service.</param>
+        public IncreaseStockCommandHandler(
+            IProductService productService,
+            IStockRespository stockRespository,
+            IMediator mediator)
+        {
+            _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+            _stockRespository = stockRespository ?? throw new ArgumentNullException(nameof(stockRespository));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
 
         /// <inheritdoc/>
         public async Task<Result<Guid>> Handle(IncreaseStockCommand request, CancellationToken cancellationToken)
@@ -33,7 +48,6 @@ namespace Stock.Application.Stock.CommandHandlers
             var validation = new IncreaseStockCommandValidation();
 
             ValidationResult validationResult = await validation.ValidateAsync(request, cancellationToken);
-
             if (!validationResult.IsValid)
             {
                 return Result.Merge(validationResult.Errors.Select(validationError => Result.Fail(validationError.ErrorMessage)).ToArray());
@@ -50,8 +64,25 @@ namespace Stock.Application.Stock.CommandHandlers
                 return Result.Fail("Unable to get product details.");
             }
 
-            // TODO: Add product quantity into stock.
-            return Result.Ok(Guid.NewGuid());
+            // Add product quantity into stock.
+            await _stockRespository.IncreaseStockAsync(
+                new IncreaseStockModel()
+                {
+                    ProductId = request.ProductId,
+                    Quantity = request.Quantity,
+                },
+                cancellationToken).ConfigureAwait(false);
+
+            StockIncreasedEvent stockIncreasedEvent = new StockIncreasedEvent()
+            {
+                Id = Guid.NewGuid(),
+                Product = productResult.Value,
+                Quantity = request.Quantity,
+            };
+
+            await _mediator.Publish(stockIncreasedEvent).ConfigureAwait(false);
+
+            return Result.Ok(stockIncreasedEvent.Id);
         }
     }
 }

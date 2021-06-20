@@ -7,8 +7,8 @@ using Moq;
 using Moq.AutoMock;
 using Stock.Application.Product.Errors;
 using Stock.Application.Product.Service;
-using Stock.Application.Stock.Command;
 using Stock.Application.Stock.CommandHandlers;
+using Stock.Application.Stock.Commands;
 using Xunit;
 
 namespace Stock.Application.UnitTests.Stock.CommandHandlers

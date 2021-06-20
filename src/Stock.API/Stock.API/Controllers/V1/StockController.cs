@@ -5,7 +5,7 @@ using FluentResults;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Stock.Application.Stock.Command;
+using Stock.Application.Stock.Commands;
 
 namespace Stock.API.Controllers.V1
 {

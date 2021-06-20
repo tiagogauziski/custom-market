@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Stock.Application.Product.Contracts.V1;
 using Stock.Application.Product.Service;
-using Stock.Application.Stock.Command;
+using Stock.Application.Stock.Commands;
 using Xunit;
 
 namespace Stock.API.IntegrationTests.Controllers

@@ -12,7 +12,7 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly MongoClient _mongoClient;
-        private readonly IMongoCollection<Models.Product> _products;
+        private readonly IMongoCollection<Models.Product> _productCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductRepository"/> class.
@@ -27,47 +27,47 @@ namespace Product.Infrastructure.Database.MongoDB.Repositories
 
             IMongoDatabase database = _mongoClient.GetDatabase(productDatabaseSettings.DatabaseName);
 
-            _products = database.GetCollection<Models.Product>("product");
+            _productCollection = database.GetCollection<Models.Product>("product");
         }
 
         /// <inheritdoc/>
         public async Task CreateAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.InsertOneAsync(product, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _productCollection.InsertOneAsync(product, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task DeleteAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.DeleteOneAsync((dbProduct) => dbProduct.Id == product.Id, cancellationToken).ConfigureAwait(false);
+            await _productCollection.DeleteOneAsync((dbProduct) => dbProduct.Id == product.Id, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task<Models.Product> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             IAsyncCursor<Models.Product> product =
-                await _products.FindAsync(
+                await _productCollection.FindAsync(
                     (product) => product.Id == id,
                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            return product.FirstOrDefault(cancellationToken);
+            return await product.FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <inheritdoc />
         public async Task<Models.Product> GetByNameBrandAsync(string name, string brand, CancellationToken cancellationToken)
         {
             IAsyncCursor<Models.Product> product =
-               await _products.FindAsync(
+               await _productCollection.FindAsync(
                    (product) => product.Name == name && product.Brand == brand,
                    cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            return product.FirstOrDefault(cancellationToken);
+            return await product.FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
         public async Task UpdateAsync(Models.Product product, CancellationToken cancellationToken)
         {
-            await _products.ReplaceOneAsync(
+            await _productCollection.ReplaceOneAsync(
                 (dbProduct) => dbProduct.Id == product.Id,
                 product,
                 cancellationToken: cancellationToken).ConfigureAwait(false);

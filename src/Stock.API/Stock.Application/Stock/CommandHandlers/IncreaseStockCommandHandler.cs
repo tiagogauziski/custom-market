@@ -50,6 +50,7 @@ namespace Stock.Application.Stock.CommandHandlers
                 return Result.Fail("Unable to get product details.");
             }
 
+            // TODO: Add product quantity into stock.
             return Result.Ok(Guid.NewGuid());
         }
     }

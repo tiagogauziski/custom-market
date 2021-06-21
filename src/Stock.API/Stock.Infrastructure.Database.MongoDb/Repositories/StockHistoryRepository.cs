@@ -33,7 +33,10 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
         }
 
         /// <inheritdoc />
-        public Task DecreaseStockEventAsync(StockHistoryModel decreaseStockModel, CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task DecreaseStockEventAsync(StockHistoryModel decreaseStockModel, CancellationToken cancellationToken)
+        {
+            await _stockHistoryCollection.InsertOneAsync(decreaseStockModel, null, cancellationToken).ConfigureAwait(false);
+        }
 
         /// <inheritdoc />
         public async Task IncreaseStockEventAsync(StockHistoryModel increaseStockModel, CancellationToken cancellationToken)

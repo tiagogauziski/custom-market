@@ -33,10 +33,32 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
         }
 
         /// <inheritdoc />
-        public Task DecreaseStockAsync(DecreaseStockModel decreaseStockModel, CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task DecreaseStockAsync(DecreaseStockModel decreaseStockModel, CancellationToken cancellationToken = default)
+        {
+            if (decreaseStockModel is null)
+            {
+                throw new ArgumentNullException(nameof(decreaseStockModel));
+            }
+
+            var stock = await GetStockAsync(decreaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
+            if (stock is null)
+            {
+                stock = new StockModel(decreaseStockModel.ProductId, decreaseStockModel.Quantity);
+            }
+            else
+            {
+                stock.Quantity -= decreaseStockModel.Quantity;
+            }
+
+            await _stockCollection.ReplaceOneAsync(
+                (dbStock) => dbStock.ProductId == decreaseStockModel.ProductId,
+                stock,
+                new ReplaceOptions() { IsUpsert = true },
+                cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
 
         /// <inheritdoc />
-        public async Task<StockModel> GetStockAsync(Guid productId, CancellationToken cancellationToken)
+        public async Task<StockModel> GetStockAsync(Guid productId, CancellationToken cancellationToken = default)
         {
             IAsyncCursor<StockModel> product =
                 await _stockCollection.FindAsync(
@@ -47,8 +69,13 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
         }
 
         /// <inheritdoc />
-        public async Task IncreaseStockAsync(IncreaseStockModel increaseStockModel, CancellationToken cancellationToken)
+        public async Task IncreaseStockAsync(IncreaseStockModel increaseStockModel, CancellationToken cancellationToken = default)
         {
+            if (increaseStockModel is null)
+            {
+                throw new ArgumentNullException(nameof(increaseStockModel));
+            }
+
             var stock = await GetStockAsync(increaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
             if (stock is null)
             {

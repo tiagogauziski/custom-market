@@ -34,9 +34,37 @@ namespace Stock.API.Controllers.V1
         [Route("{productId}/increase")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Increase(
+        public async Task<IActionResult> IncreaseAsync(
             [FromRoute] Guid productId,
             [FromBody] IncreaseStockCommand command)
+        {
+            command.ProductId = productId;
+
+            Result<Guid> result = await _mediator.Send(command);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+            else
+            {
+                return BadRequest(result.Errors.Select(error => error.Message));
+            }
+        }
+
+        /// <summary>
+        /// Decrease stock for given product.
+        /// </summary>
+        /// <param name="productId">Product id.</param>
+        /// <param name="command">Increase product command.</param>
+        /// <returns>HTTP response.</returns>
+        [HttpPut]
+        [Route("{productId}/decrease")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string[]), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DecreaseAsync(
+            [FromRoute] Guid productId,
+            [FromBody] DecreaseStockCommand command)
         {
             command.ProductId = productId;
 

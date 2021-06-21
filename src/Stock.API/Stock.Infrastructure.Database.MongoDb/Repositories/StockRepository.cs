@@ -9,9 +9,9 @@ using Stock.Infrastructure.Database.MongoDb.Settings;
 namespace Stock.Infrastructure.Database.MongoDb.Repositories
 {
     /// <summary>
-    /// MongoDB implementastion of <see cref="IStockRespository"/>.
+    /// MongoDB implementastion of <see cref="IStockRepository"/>.
     /// </summary>
-    public class StockRepository : IStockRespository
+    public class StockRepository : IStockRepository
     {
         private readonly MongoClient _mongoClient;
         private readonly IMongoCollection<StockModel> _stockCollection;

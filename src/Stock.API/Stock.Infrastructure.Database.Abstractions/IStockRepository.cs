@@ -8,7 +8,7 @@ namespace Stock.Infrastructure.Database.Abstractions
     /// <summary>
     /// Interface to persist the current stock level into the datasouce.
     /// </summary>
-    public interface IStockRespository
+    public interface IStockRepository
     {
         /// <summary>
         /// Increase the current stock level.

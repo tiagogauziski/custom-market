@@ -22,7 +22,7 @@ namespace Stock.Application.Stock.CommandHandlers
     public class IncreaseStockCommandHandler : IRequestHandler<IncreaseStockCommand, Result<Guid>>
     {
         private readonly IProductService _productService;
-        private readonly IStockRespository _stockRespository;
+        private readonly IStockRepository _stockRespository;
         private readonly IMediator _mediator;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Stock.Application.Stock.CommandHandlers
         /// <param name="mediator">Mediator service.</param>
         public IncreaseStockCommandHandler(
             IProductService productService,
-            IStockRespository stockRespository,
+            IStockRepository stockRespository,
             IMediator mediator)
         {
             _productService = productService ?? throw new ArgumentNullException(nameof(productService));

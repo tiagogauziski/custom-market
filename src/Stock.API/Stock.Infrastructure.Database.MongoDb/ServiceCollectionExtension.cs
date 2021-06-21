@@ -26,7 +26,7 @@ namespace Stock.Infrastructure.Database.MongoDb
                 return new MongoClient(settings.ConnectionString);
             });
 
-            services.AddSingleton<IStockRespository, StockRepository>();
+            services.AddSingleton<IStockRepository, StockRepository>();
             services.AddSingleton<IStockHistoryRepository, StockHistoryRepository>();
         }
     }

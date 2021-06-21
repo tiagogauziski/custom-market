@@ -12,7 +12,6 @@ namespace Stock.API.IntegrationTests
     {
         protected override IHostBuilder CreateHostBuilder()
         {
-
             string fullPath = System.Reflection.Assembly.GetAssembly(typeof(StockApiWebApplicationFactory<Startup>)).Location;
             string directory = Path.GetDirectoryName(fullPath);
 
@@ -34,8 +33,6 @@ namespace Stock.API.IntegrationTests
             return builder;
         }
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder) => builder.ConfigureServices(services =>
-                                                                           {
-                                                                           });
+        protected override void ConfigureWebHost(IWebHostBuilder builder) => builder.ConfigureServices(services => { });
     }
 }

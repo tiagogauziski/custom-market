@@ -1,0 +1,22 @@
+version: "3.4"
+services:
+  stock-mongodb:
+    container_name: stock-mongodb
+    image: mongo
+  stock-integration-tests:
+    container_name: stock-integration-tests
+    image: mcr.microsoft.com/dotnet/sdk:5.0
+    environment:
+      - StockDatabaseSettings__ConnectionString=mongodb://stock-mongodb:27017
+      - ProductServiceSettings__BaseUrl=http://localhost/
+    volumes:
+      - .:/src
+    working_dir: /src/Stock.API.IntegrationTests
+    command:
+      [
+        "dotnet",
+        "test",
+        "Stock.API.IntegrationTests.csproj"
+      ]
+    depends_on:
+      - stock-mongodb

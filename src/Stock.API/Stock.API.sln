@@ -12,6 +12,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A604D1BF-B7DD-401F-9A25-7880A8D64DD1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		docker-compose-integration.yml = docker-compose-integration.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Application.UnitTests", "Stock.Application.UnitTests\Stock.Application.UnitTests.csproj", "{2AF01E2E-DDDE-4FBA-BD14-CD0E2266D780}"
@@ -20,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Infrastructure.Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Domain", "Stock.Domain\Stock.Domain.csproj", "{5B24BED3-7C64-4DA6-927F-1DABE55AAC9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Infrastructure.Database.MongoDb", "Stock.Infrastructure.Database.MongoDb\Stock.Infrastructure.Database.MongoDb.csproj", "{F1A9C759-74F5-4A5E-B1A6-003495696163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.Infrastructure.Database.MongoDb", "Stock.Infrastructure.Database.MongoDb\Stock.Infrastructure.Database.MongoDb.csproj", "{F1A9C759-74F5-4A5E-B1A6-003495696163}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

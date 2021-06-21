@@ -1,13 +1,13 @@
 version: "3.4"
 services:
-  mongodb:
-    container_name: mongodb
+  product-mongodb:
+    container_name: product-mongodb
     image: mongo
-  integration-tests:
-    container_name: integration-tests
+  product-integration-tests:
+    container_name: product-integration-tests
     image: mcr.microsoft.com/dotnet/sdk:5.0
     environment:
-      - ProductDatabaseSettings__ConnectionString=mongodb://mongodb:27017
+      - ProductDatabaseSettings__ConnectionString=mongodb://product-mongodb:27017
     volumes:
       - .:/src
     working_dir: /src/Product.API.IntegrationTests

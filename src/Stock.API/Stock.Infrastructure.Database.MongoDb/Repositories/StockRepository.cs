@@ -40,7 +40,7 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
                 throw new ArgumentNullException(nameof(decreaseStockModel));
             }
 
-            var stock = await GetStockAsync(decreaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
+            StockModel stock = await GetStockAsync(decreaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
             if (stock is null)
             {
                 stock = new StockModel(decreaseStockModel.ProductId, decreaseStockModel.Quantity);
@@ -76,7 +76,7 @@ namespace Stock.Infrastructure.Database.MongoDb.Repositories
                 throw new ArgumentNullException(nameof(increaseStockModel));
             }
 
-            var stock = await GetStockAsync(increaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
+            StockModel stock = await GetStockAsync(increaseStockModel.ProductId, cancellationToken).ConfigureAwait(false);
             if (stock is null)
             {
                 stock = new StockModel(increaseStockModel.ProductId, increaseStockModel.Quantity);

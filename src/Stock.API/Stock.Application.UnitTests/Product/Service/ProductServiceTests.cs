@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Moq;
 using Stock.Application.Product.Service;
 using Xunit;

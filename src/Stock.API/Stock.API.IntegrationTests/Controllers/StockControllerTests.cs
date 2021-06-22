@@ -190,7 +190,7 @@ namespace Stock.API.IntegrationTests.Controllers
         public async Task DecreaseAsync_WhenDecreaseQuantityIsHigher_ShouldReturnBadRequest()
         {
             // Arrange
-            IncreaseStockCommand increaseStockCommand =new IncreaseStockCommand()
+            IncreaseStockCommand increaseStockCommand = new IncreaseStockCommand()
             {
                 ProductId = _newProduct,
                 Quantity = 1

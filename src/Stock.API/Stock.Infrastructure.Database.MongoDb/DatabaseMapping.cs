@@ -16,7 +16,7 @@ namespace Stock.Infrastructure.Database.MongoDb
         /// </summary>
         public static void RegisterMapping()
         {
-            if (BsonClassMap.GetRegisteredClassMaps().Count() > 0)
+            if (BsonClassMap.GetRegisteredClassMaps().Any())
             {
                 return;
             }
